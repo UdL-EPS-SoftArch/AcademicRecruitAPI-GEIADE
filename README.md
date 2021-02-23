@@ -4,9 +4,10 @@
 
 ## Vision
 
-**For** ... **who** ...
+**For** members **who** take part in the selection process of candidates and **for** candidates
+**who** want to apply for teaching staff vacant posts.
 
-**the project** AcademicRecruit **is a** ...,
+**the project** AcademicRecruit **is a** platform to manage the selection process tak
 
 **that** ...
 

@@ -7,23 +7,31 @@
 **For** members **who** take part in the selection process of candidates and **for** candidates
 **who** want to apply for teaching staff vacant posts.
 
-**the project** AcademicRecruit **is a** platform to manage the selection process tak
+**the project** AcademicRecruit **is a** platform to manage the selection process taking into account stakeholders' interests
 
-**that** ...
+**that** allows managing commissions, documents and commissioners in order to keep track of the selection processes of candidates
 
-**Unlike** existing tools, AcademicRecruit ...
+**Unlike** existing tools, AcademicRecruit fits the UdL standards.
 
 
 ## Features per Stakeholder
 
-|       Stakeholder 1             |       Stakeholder 2             |   Administrator   |
-| --------------------------------| --------------------------------|-------------------|
-|                                 |                                 |  Register User    |                             
-|                                 |                                 |                   |                                 
-|                                 |                                 |                   |                               
-|                                 |                                 |                   |                                
-|                                 |                                 |                   |             
-|                                 |                                 |                   |               
+|       Commissioner              |   Secretary                     |
+| --------------------------------|---------------------------------|
+| Read Documents                  |  Invite Commissioners           |
+| Sign Documents                  |  Delete Commissioners           | 
+| Upload Documents                |  Update Commissioners           | 
+| Grade Candidate                 |  Read Commissioners             | 
+|                                 |  Post Documents                 |  
+|                                 |  Publish Documents              | 
+|                                 |  Download Documents             | 
+|                                 |  Delete Documents               |     
+|                                 |  Create Commissions             | 
+|                                 |  Delete Commissions             |
+|                                 |  Update Commissions             |   
+|                                 |  List Commissions               |  
+|                                 |                                 |                                 
+              
 
 
 ## Entities Model

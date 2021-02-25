@@ -22,7 +22,10 @@
 | Sign Documents                  |  Delete Commissioners           | 
 | Upload Documents                |  Update Commissioners           | 
 | Grade Candidate                 |  Read Commissioners             | 
-|                                 |  Post Documents                 |  
+|                                 |  Create Candidates              |
+|                                 |  Update Candidates              |
+|                                 |  Delete Candidates              |
+|                                 |  List Candidates                |
 |                                 |  Publish Documents              | 
 |                                 |  Download Documents             | 
 |                                 |  Delete Documents               |     
@@ -30,7 +33,7 @@
 |                                 |  Delete Commissions             |
 |                                 |  Update Commissions             |   
 |                                 |  List Commissions               |  
-|                                 |                                 |                                 
+|                                 |  Manage process status          |                                 
               
 
 

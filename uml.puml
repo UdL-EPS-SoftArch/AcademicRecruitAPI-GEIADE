@@ -1,0 +1,37 @@
+@startuml
+    class User {
+        name : String
+        passwordHash : String
+        email: String
+        isAdmin: Boolean
+    }
+
+    class Participant {
+        Role : Enum (SECRETARY,PRESIDENT,VOCAL)
+    }
+
+    class SelectionProcess {
+        step: Integer
+        vacancy: String
+    }
+
+    class Candidate {
+        name: String
+        dni: String
+    }
+
+    abstract Document {
+        path: String
+        name: String
+        size: Integer
+        mime: String
+    }
+
+    User "1" --- "*" Participant : is
+    SelectionProcess "1" --- "*" Participant : has
+
+    Document "*" --- "1" User : created by
+    Document "*" --- "1" SelectionProcess : has
+
+    Document "*" --- "0..1" Candidate : grade
+@enduml

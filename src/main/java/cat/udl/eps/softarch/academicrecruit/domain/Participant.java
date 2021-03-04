@@ -3,33 +3,29 @@ package cat.udl.eps.softarch.academicrecruit.domain;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
-import java.util.UUID;
+import javax.persistence.*;
 
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class Participant extends UriEntity<UUID> {
+public class Participant extends UriEntity<Long> {
 
     public enum Role {
         SECRETARY, PRESIDENT, VOCAL
     }
 
-    @Id
-    private UUID id;
+    @Id @GeneratedValue
+    private long id;
 
     @Enumerated(EnumType.ORDINAL)
     private Role role;
 
     @Override
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(long id) {
         this.id = id;
     }
 

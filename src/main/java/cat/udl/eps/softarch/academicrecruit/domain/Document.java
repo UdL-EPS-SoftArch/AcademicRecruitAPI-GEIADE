@@ -2,8 +2,6 @@ package cat.udl.eps.softarch.academicrecruit.domain;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.hibernate.validator.constraints.Length;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -11,14 +9,16 @@ import javax.persistence.Table;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class Document extends UriEntity<String>{
-    public enum DocumentTypes{
+public class Document extends UriEntity<String> {
+    private enum DocumentTypes {
         RESOLUCIO,
         CRITERIS_AVALUACIO,
         ALTRES
     }
 
     @Id
+    private int id;
+
     private String name;
 
     public String docType;
@@ -31,9 +31,11 @@ public class Document extends UriEntity<String>{
 
 
 
+    /*************** Setters ****************/
+    public void setName(String name){ this.name = name; }
 
-    public void setDocType(DocumentTypes type){
-        switch (type){
+    public void setDocType(DocumentTypes type) {
+        switch (type) {
             case ALTRES:
                 this.docType = "Altres";
                 break;
@@ -49,21 +51,24 @@ public class Document extends UriEntity<String>{
 
     }
 
-    public String getPath(){
-        return this.path;
-    }
+    public void setPath(String path) {  this.path = path; }
 
-    public void setPath(String path) {
-        this.path = path;
-    }
+    public void setLength(int length){ this.length = length;  }
 
-    public int getLength(){
-        return this.length;
-    }
+    public void setMime(String mime){ this.mime = mime;  }
 
 
-    @Override
-    public String getId() {
-        return this.name;
-    }
+    /*************** Getters ****************/
+    public String getName(){ return this.name; }
+
+    public String getDocType(){ return this.docType; }
+
+    public String getPath() { return this.path; }
+
+    public int getLength() { return this.length; }
+
+    public String getMime(){ return this.mime; }
+
+
 }
+

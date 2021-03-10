@@ -4,16 +4,10 @@ package cat.udl.eps.softarch.academicrecruit.domain;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.Collection;
 
 
 @Entity
@@ -35,7 +29,16 @@ public class Candidate extends User {
     @Length(max = 32)
     private String dni;
 
+    @Id
+    @GeneratedValue
+    private String id;
 
+    @Override
+    public String getId() {
+        return this.id;
+    }
+
+    public void setId(String id) { this.id = id; }
 }
 
 

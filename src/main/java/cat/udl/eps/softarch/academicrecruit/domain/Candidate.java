@@ -17,11 +17,11 @@ import java.util.Collection;
 
 
 @Entity
-@Table(name = "AcademicRecruitUser") //Avoid collision with system table User in Postgres
+@Table(name = "AcademicRecruitCandidate") //Avoid collision with system table User in Postgres
 @Data
 @EqualsAndHashCode(callSuper = true)
 
-public class Candidate extends UriEntity<String> implements UserDetails {
+public class Candidate extends User {
 
     @NotNull
     @NotBlank
@@ -36,44 +36,9 @@ public class Candidate extends UriEntity<String> implements UserDetails {
     private String dni;
 
 
-    @Override
-    public String getId() {
-        return null;
-    }
-    public void setId(String id) { this.dni = id; }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    @Override
-    public String getPassword() {
-        return null;
-    }
-
-    @Override
-    public String getUsername() {
-        return null;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return false;
-    }
 }
+
+
+
+
+

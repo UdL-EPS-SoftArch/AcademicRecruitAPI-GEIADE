@@ -23,7 +23,7 @@ public class CreateSelectionProcessStepDefs {
         this.selectionProcessRepository = selectionProcessRepository;
     }
 
-    @When("I create a selection with vacancy {string}")
+    @When("I create a selection process with vacancy {string}")
     public void iCreateANewSelectionProcessWithVacancy(String vacancy) throws Throwable {
         SelectionProcess selectionProcess = new SelectionProcess();
         selectionProcess.setVacancy(vacancy);
@@ -35,6 +35,7 @@ public class CreateSelectionProcessStepDefs {
                         .accept(MediaType.APPLICATION_JSON)
                         .with(AuthenticationStepDefs.authenticate()))
                 .andDo(print());
+
     }
 
     @And("It has been created a selection process with vacancy {string}")

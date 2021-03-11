@@ -11,8 +11,14 @@
     }
 
     class SelectionProcess {
-        step: Integer
         vacancy: String
+    }
+
+    class ProcessStage {
+        name: String
+        step: Integer
+        beginDate: DateTime
+        endDate: DateTime
     }
 
     class Candidate {
@@ -29,6 +35,9 @@
 
     User "1" --- "*" Participant : is
     SelectionProcess "1" --- "*" Participant : has
+
+    SelectionProcess "1" --- "*" ProcessStage : has
+    SelectionProcess "0..1" --- "0..1" ProcessStage : isActiveStage
 
     Document "*" --- "1" User : created by
     Document "*" --- "1" SelectionProcess : has

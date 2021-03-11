@@ -4,21 +4,12 @@ Feature: Create Document
   As a secretary
   I want to create documents
 
+
   Background:
+    Given There is a registered administrator with username "admin" and password "password" and email "admin@sample.app"
 
-
-  Scenario: Create a Document with id "id" already existent
-    Given There is a registred document with id "id"
-    When I create the document with id "id"
-    Then The response code is 403
-    And The document with id "id" is not created
-
-
-  Scenario: Create a Document with id "id" not existent
-    Given There is not a registred document with id "id"
-    When I create the document with id "id"
-    Then The response code is 200
-    And The Document is created
-
-
-
+  Scenario: Admin Created document
+    Given I login as "admin" with password "password"
+    When I create a document with title "title"
+    Then The response code is 201
+    And It has been created a document with title "title"

@@ -5,5 +5,5 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 @RepositoryRestResource
-public interface SelectionProcessRepository extends PagingAndSortingRepository<SelectionProcess, String> {
+public interface SelectionProcessRepository extends PagingAndSortingRepository<SelectionProcess, Long> {
 }

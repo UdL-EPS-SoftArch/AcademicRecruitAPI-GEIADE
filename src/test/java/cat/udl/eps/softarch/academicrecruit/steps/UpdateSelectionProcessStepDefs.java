@@ -1,5 +1,6 @@
 package cat.udl.eps.softarch.academicrecruit.steps;
 
+import cat.udl.eps.softarch.academicrecruit.domain.SelectionProcess;
 import cat.udl.eps.softarch.academicrecruit.repository.SelectionProcessRepository;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.When;
@@ -25,11 +26,15 @@ public class UpdateSelectionProcessStepDefs {
 
     @When("I change vacancy of selection process with id {string} to {string}")
     public void iChangeVacancyOfSelectionProcessTo(String id, String vacancy) throws Throwable {
+        SelectionProcess selectionProcess = new SelectionProcess();
+        selectionProcess.setId(Long.valueOf(id));
+        selectionProcess.setVacancy(vacancy);
+
         newResourceUri = "/selectionProcesses/".concat(id);
         stepDefs.result = stepDefs.mockMvc.perform(
                 patch(newResourceUri)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content((new JSONObject().put("vacancy", vacancy)).toString())
+                        .content(stepDefs.mapper.writeValueAsString(selectionProcess))
                         .accept(MediaType.APPLICATION_JSON)
                         .with(AuthenticationStepDefs.authenticate())
         ).andDo(print());

@@ -6,9 +6,9 @@ Feature: Update Participant
   Background:
     Given There is a registered administrator with username "admin" and password "password" and email "admin@sample.app"
     And I login as "admin" with password "password"
-    And I create a participant with role 0
+    And I create a participant with role "SECRETARY"
 
   Scenario: Admin updates role
-    When I change the role of the participant with id "1" to 1
+    When I change the role of the participant with id "1" to "PRESIDENT"
     Then The response code is 200
-    And The previously updated participant has now role 1
+    And The previously updated participant has now role "PRESIDENT"

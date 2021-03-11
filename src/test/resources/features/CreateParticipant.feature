@@ -8,6 +8,6 @@ Feature: Create Participant
 
   Scenario: Admin Created participant
     Given I login as "admin" with password "password"
-    When I create a participant with role 0
+    When I create a participant with role "SECRETARY"
     Then The response code is 201
-    And It has been created a participant with role 0
+    And It has been created a participant with role "SECRETARY"

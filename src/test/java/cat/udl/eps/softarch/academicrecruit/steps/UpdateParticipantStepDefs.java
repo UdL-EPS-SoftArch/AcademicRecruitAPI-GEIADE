@@ -24,12 +24,12 @@ public class UpdateParticipantStepDefs {
         this.participantRepository = participantRepository;
     }
 
-    @When("I change the role of the participant with id {string} to {int}")
-    public void iChangeRoleOfParticipantTo(String id, int role) throws Throwable {
+    @When("I change the role of the participant with id {string} to {string}")
+    public void iChangeRoleOfParticipantTo(String id, String role) throws Throwable {
 
         Participant participant = new Participant();
         participant.setId(Long.valueOf(id));
-        participant.setRole(Participant.Role.values()[role]);
+        participant.setRole(Participant.Role.valueOf(role));
 
         newResourceUri = "/participants/"+ id;
 
@@ -42,13 +42,13 @@ public class UpdateParticipantStepDefs {
         ).andDo(print());
     }
 
-    @And("The previously updated participant has now role {int}")
-    public void thePreviouslyUpdatedDatasetHasNowTitle(int newRole) throws Throwable {
+    @And("The previously updated participant has now role {string}")
+    public void thePreviouslyUpdatedDatasetHasNowTitle(String newRole) throws Throwable {
         stepDefs.result = stepDefs.mockMvc.perform(
                 get(newResourceUri)
                         .accept(MediaType.APPLICATION_JSON)
                         .with(AuthenticationStepDefs.authenticate()))
                 .andDo(print())
-                .andExpect(jsonPath("$.role", is(Participant.Role.values()[newRole].toString())));
+                .andExpect(jsonPath("$.role", is(newRole)));
     }
 }

@@ -18,17 +18,16 @@ public class CreateParticipantStepDefs {
 
     final StepDefs stepDefs;
     final ParticipantRepository participantRepository;
-    private String newResourceUri;
 
     public CreateParticipantStepDefs(StepDefs stepDefs, ParticipantRepository participantRepository) {
         this.stepDefs = stepDefs;
         this.participantRepository = participantRepository;
     }
 
-    @When("I create a participant with role {int}")
-    public void iCreateANewDatasetWithTitleAndDescription(int role) throws Throwable {
+    @When("I create a participant with role {string}")
+    public void iCreateANewDatasetWithTitleAndDescription(String role) throws Throwable {
         Participant participant = new Participant();
-        participant.setRole(Participant.Role.values()[role]);
+        participant.setRole(Participant.Role.valueOf(role));
 
         stepDefs.result = stepDefs.mockMvc.perform(
                 post("/participants")
@@ -39,14 +38,14 @@ public class CreateParticipantStepDefs {
                 .andDo(print());
     }
 
-    @And("It has been created a participant with role {int}")
-    public void itHasBeenCreatedAParticipantWithRoleAndIsProvidedBy(int role) throws Throwable {
-        newResourceUri = stepDefs.result.andReturn().getResponse().getHeader("Location");
+    @And("It has been created a participant with role {string}")
+    public void itHasBeenCreatedAParticipantWithRoleAndIsProvidedBy(String role) throws Throwable {
+        String newResourceUri = stepDefs.result.andReturn().getResponse().getHeader("Location");
         stepDefs.result = stepDefs.mockMvc.perform(
                 get(newResourceUri)
                         .accept(MediaType.APPLICATION_JSON)
                         .with(AuthenticationStepDefs.authenticate()))
                 .andDo(print())
-                .andExpect(jsonPath("$.role", is(Participant.Role.values()[role].toString())));
+                .andExpect(jsonPath("$.role", is(role)));
     }
 }

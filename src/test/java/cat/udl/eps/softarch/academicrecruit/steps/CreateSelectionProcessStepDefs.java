@@ -29,7 +29,7 @@ public class CreateSelectionProcessStepDefs {
         selectionProcess.setVacancy(vacancy);
 
         stepDefs.result = stepDefs.mockMvc.perform(
-                post("/selection-processes")
+                post("/selectionProcesses")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(stepDefs.mapper.writeValueAsString(selectionProcess))
                         .accept(MediaType.APPLICATION_JSON)

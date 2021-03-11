@@ -35,11 +35,11 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
                 .antMatchers(HttpMethod.PATCH, "/**/*").authenticated()
                 .antMatchers(HttpMethod.DELETE, "/**/*").authenticated()
 
-                .antMatchers(HttpMethod.POST, "/selection-processes/*").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PATCH, "/selection-processes/*").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PUT, "/selection-processes/*").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/selection-processes/*").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET, "/selection-processes/*").authenticated()
+                .antMatchers(HttpMethod.POST, "/selectionProcesses/*").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PATCH, "/selectionProcesses/*").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/selectionProcesses/*").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/selectionProcesses/*").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/selectionProcesses/*").authenticated()
 
                 .anyRequest().permitAll()
                 .and()

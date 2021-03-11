@@ -25,7 +25,7 @@ public class UpdateSelectionProcessStepDefs {
 
     @When("I change vacancy of selection process with id {string} to {string}")
     public void iChangeVacancyOfSelectionProcessTo(String id, String vacancy) throws Throwable {
-        newResourceUri = "/selection-process/".concat(id);
+        newResourceUri = "/selectionProcesses/".concat(id);
         stepDefs.result = stepDefs.mockMvc.perform(
                 patch(newResourceUri)
                         .contentType(MediaType.APPLICATION_JSON)

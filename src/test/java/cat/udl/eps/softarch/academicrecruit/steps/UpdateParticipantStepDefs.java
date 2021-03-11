@@ -26,11 +26,14 @@ public class UpdateParticipantStepDefs {
 
     @When("I change the role of the participant with id {string} to {int}")
     public void iChangeRoleOfParticipantTo(String id, int role) throws Throwable {
+        Participant participant = new Participant();
+        participant.setRole(Participant.Role.values()[role]);
         newResourceUri = "/participants/"+ id;
         stepDefs.result = stepDefs.mockMvc.perform(
                 patch(newResourceUri)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content((new JSONObject().put("role", Participant.Role.values()[role].toString())).toString())
+                        //.content((new JSONObject().put("role", Participant.Role.values()[role].toString())).toString())
+                        .content(stepDefs.mapper.writeValueAsString(participant))
                         .accept(MediaType.APPLICATION_JSON)
                         .with(AuthenticationStepDefs.authenticate())
         ).andDo(print());

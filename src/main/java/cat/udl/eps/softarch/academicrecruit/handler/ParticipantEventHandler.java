@@ -22,42 +22,42 @@ public class ParticipantEventHandler {
     }
 
     @HandleBeforeCreate
-    public void handleParticipantPreCreate(Participant player) {
-        logger.info("Before creating: {}", player.toString());
+    public void handleParticipantPreCreate(Participant participant) {
+        logger.info("Before creating: {}", participant.toString());
     }
 
     @HandleBeforeSave
-    public void handleParticipantPreSave(Participant player) {
-        logger.info("Before updating: {}", player.toString());
+    public void handleParticipantPreSave(Participant participant) {
+        logger.info("Before updating: {}", participant.toString());
     }
 
     @HandleBeforeDelete
-    public void handleParticipantPreDelete(Participant player) {
-        logger.info("Before deleting: {}", player.toString());
+    public void handleParticipantPreDelete(Participant participant) {
+        logger.info("Before deleting: {}", participant.toString());
     }
 
     @HandleBeforeLinkSave
-    public void handleParticipantPreLinkSave(Participant player, Object o) {
-        logger.info("Before linking: {} to {}", player.toString(), o.toString());
+    public void handleParticipantPreLinkSave(Participant participant, Object o) {
+        logger.info("Before linking: {} to {}", participant.toString(), o.toString());
     }
 
     @HandleAfterCreate
-    public void handleParticipantPostCreate(Participant player) {
-        logger.info("After creating: {}", player.toString());
+    public void handleParticipantPostCreate(Participant participant) {
+        logger.info("After creating: {}", participant.toString());
     }
 
     @HandleAfterSave
-    public void handleParticipantPostSave(Participant player) {
-        logger.info("After updating: {}", player.toString());
+    public void handleParticipantPostSave(Participant participant) {
+        logger.info("After updating: {}", participant.toString());
     }
 
     @HandleAfterDelete
-    public void handleParticipantPostDelete(Participant player) {
-        logger.info("After deleting: {}", player.toString());
+    public void handleParticipantPostDelete(Participant participant) {
+        logger.info("After deleting: {}", participant.toString());
     }
 
     @HandleAfterLinkSave
-    public void handleParticipantPostLinkSave(Participant player, Object o) {
-        logger.info("After linking: {} to {}", player.toString(), o.toString());
+    public void handleParticipantPostLinkSave(Participant participant, Object o) {
+        logger.info("After linking: {} to {}", participant.toString(), o.toString());
     }
 }

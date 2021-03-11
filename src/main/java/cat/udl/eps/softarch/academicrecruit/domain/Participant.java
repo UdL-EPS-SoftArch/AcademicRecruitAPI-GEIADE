@@ -2,6 +2,8 @@ package cat.udl.eps.softarch.academicrecruit.domain;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -14,28 +16,12 @@ public class Participant extends UriEntity<Long> {
         SECRETARY, PRESIDENT, VOCAL
     }
 
-    @Id @GeneratedValue
-    private long id;
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     @Enumerated(EnumType.ORDINAL)
     private Role role;
 
-    @Override
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
 }
 
 

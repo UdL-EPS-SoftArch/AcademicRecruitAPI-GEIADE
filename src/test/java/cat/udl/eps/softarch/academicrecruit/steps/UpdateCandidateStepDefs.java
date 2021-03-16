@@ -1,7 +1,6 @@
 package cat.udl.eps.softarch.academicrecruit.steps;
 
-import io.cucumber.java.en.And;
-import io.cucumber.java.en.When;
+import io.cucumber.java.en.*;
 import org.json.JSONObject;
 import org.springframework.http.MediaType;
 
@@ -31,15 +30,19 @@ public class UpdateCandidateStepDefs {
     final StepDefs stepDefs;
     final CandidateRepository candidateRepository;
     private String newResourceUri;
+    Candidate candidate ;
 
     public UpdateCandidateStepDefs(StepDefs stepDefs, CandidateRepository candidateRepository) {
         this.stepDefs = stepDefs;
         this.candidateRepository = candidateRepository;
     }
 
-    @When("I change the name of the candidate with name {string}")
-    public void iChangeNameOfCandidateTo(String name, String dni) throws Throwable {
-        newResourceUri = "/candidate/"+ name + dni;
+    @When("I change the name of the candidate with Dni {string} to name {string}")
+    public void iChangeNameOfCandidateTo(String name,String dni) throws Throwable {
+        this.candidate = new Candidate(dni);
+        candidate.setName("Miquel");
+
+        newResourceUri = "/candidates/"+ dni;
         stepDefs.result = stepDefs.mockMvc.perform(
                 patch(newResourceUri)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -49,7 +52,7 @@ public class UpdateCandidateStepDefs {
         ).andDo(print());
     }
 
-    @And("The previously updated candidate has now name {string}")
+    @Then("The previously updated candidate has now name {string}")
     public void thePreviouslyUpdatedCandidateHasNowName(String newName) throws Throwable {
         stepDefs.result = stepDefs.mockMvc.perform(
                 get(newResourceUri)

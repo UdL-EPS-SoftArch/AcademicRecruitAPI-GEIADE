@@ -11,11 +11,11 @@ import javax.validation.constraints.NotNull;
 
 
 @Entity
-@Table(name = "AcademicRecruitCandidate") //Avoid collision with system table User in Postgres
 @Data
-@EqualsAndHashCode(callSuper = true)
 
-public class Candidate extends User {
+
+public class Candidate extends UriEntity<String>{
+
 
     @NotNull
     @NotBlank
@@ -29,16 +29,20 @@ public class Candidate extends User {
     @Length(max = 32)
     private String dni;
 
-    @Id
-    @GeneratedValue
-    private String id;
+    public Candidate() {
+
+    }
+
 
     @Override
     public String getId() {
-        return this.id;
-    }
+        return this.dni;
 
-    public void setId(String id) { this.id = id; }
+    }
+    public Candidate(String dni){
+        this.dni= dni;
+
+    }
 }
 
 

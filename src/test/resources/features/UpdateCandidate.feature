@@ -7,8 +7,7 @@ Feature: Candidate Update
     Given There is a registered administrator with username "admin" and password "password" and email "admin@sample.app"
 
   Scenario: Update existing candidate
-    Given There is a registered candidate with dni "dni"
-    And I login as "admin" with password "password"
-    When I update an existing candidate with name "newname" and dni "dni"
+    Given I login as "<string>" with password "<string>"
+    When I change the name of the candidate with name "lluc"
     Then The response code is 201
-    And It has been updated a candidate with name "newname" and dni "dni"
+    And The previously updated candidate has now name "lluc"

@@ -37,7 +37,7 @@ public class UpdateCandidateStepDefs {
         this.candidateRepository = candidateRepository;
     }
 
-    @When("I change the name of the candidate with name {string} ")
+    @When("I change the name of the candidate with name {string}")
     public void iChangeNameOfCandidateTo(String name, String dni) throws Throwable {
         newResourceUri = "/candidate/"+ name + dni;
         stepDefs.result = stepDefs.mockMvc.perform(

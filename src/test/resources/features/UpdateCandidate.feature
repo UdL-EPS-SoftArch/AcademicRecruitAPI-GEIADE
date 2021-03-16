@@ -1,12 +1,14 @@
-Feature: Candidate Update
-  In order to control candidates
-  As an administrator
-  I want to update existing candidates
+Feature: Update Candidate
+  In order to modify the candidate
+  As a admin
+  I want to update a candidate
 
   Background:
     Given There is a registered administrator with username "admin" and password "password" and email "admin@sample.app"
+    And I login as "admin" with password "password"
+    And I create a candidate with name "name"
 
-  Scenario: Update existing candidate
-    Given I login as "admin" with password "password"
-    When I change the name of the candidate with Dni "dni" to name "lluc"
-    Then The previously updated candidate has now name "lluc"
+  Scenario: Admin updates name
+    When I change the name of the candidate with id "1" to "lluc"
+    Then The response code is 200
+    And The previously updated candidate has now name "lluc"

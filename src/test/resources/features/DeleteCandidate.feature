@@ -5,9 +5,11 @@ Feature: Candidate Delte
 
   Background:
     Given There is a registered administrator with username "admin" and password "password" and email "admin@sample.app"
-
-  Scenario: Delete existing candidate
-    Given There is a registered candidate with dni "dni"
     And I login as "admin" with password "password"
-    When I delete an existing candidate with name "name" and dni "dni"
-    Then I have deleted candidate with name "name" and dni "dni"
+    And I create a candidate with name "name"
+
+  Scenario: Admin deletes participant
+    When I delete a candidate with name "lluc"
+    Then The response code is 204
+    And The previously deleted candidate doesn't exist
+    And The response code is 404

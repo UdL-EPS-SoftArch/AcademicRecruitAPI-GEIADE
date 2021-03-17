@@ -5,11 +5,19 @@ Feature: Delete Participant
 
   Background:
     Given There is a registered administrator with username "admin" and password "password" and email "admin@sample.app"
-    And I login as "admin" with password "password"
-    And I create a participant with role "SECRETARY"
+    And There is a registered user with username "user" and password "password" and email "user@sample.app"
 
   Scenario: Admin deletes participant
+    Given I login as "admin" with password "password"
+    And I create a participant with role "SECRETARY"
     When I delete a participant with id "1"
     Then The response code is 204
     And The previously deleted participant doesn't exist
     And The response code is 404
+
+  Scenario: User deletes participant
+    Given I login as "admin" with password "password"
+    And I create a participant with role "SECRETARY"
+    Given I login as "user" with password "password"
+    When I delete a participant with id "1"
+    Then The response code is 403

@@ -31,15 +31,15 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
                 .antMatchers(HttpMethod.POST, "/users/*").denyAll()
 
                 .antMatchers(HttpMethod.POST, "/participants").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST, "/participants/*").denyAll()
+                //.antMatchers(HttpMethod.POST, "/participants/*").denyAll()
                 .antMatchers(HttpMethod.PATCH, "/participants").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PATCH, "/participants/*").denyAll()
+                //.antMatchers(HttpMethod.PATCH, "/participants/*").denyAll()
                 .antMatchers(HttpMethod.PUT, "/participants").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PUT, "/participants/*").denyAll()
+                //.antMatchers(HttpMethod.PUT, "/participants/*").denyAll()
                 .antMatchers(HttpMethod.DELETE, "/participants").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/participants/*").denyAll()
-                .antMatchers(HttpMethod.GET, "/participants").authenticated()
-                .antMatchers(HttpMethod.GET, "/participants/*").denyAll()
+                //.antMatchers(HttpMethod.DELETE, "/participants/*").denyAll()
+                .antMatchers(HttpMethod.GET, "/participants/*").authenticated()
+                //.antMatchers(HttpMethod.GET, "/participants/*").denyAll()
 
 
                 .antMatchers(HttpMethod.POST, "/**/*").authenticated()

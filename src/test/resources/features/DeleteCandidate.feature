@@ -10,5 +10,4 @@ Feature: Candidate Delte
     Given There is a registered candidate with dni "dni"
     And I login as "admin" with password "password"
     When I delete an existing candidate with name "name" and dni "dni"
-    Then The response code is 201
-    And It has been deleted a candidate with name "name" and dni "dni"
+    Then I have deleted candidate with name "name" and dni "dni"

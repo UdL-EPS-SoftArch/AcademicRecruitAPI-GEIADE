@@ -27,14 +27,14 @@ public class UpdateCandidateStepDefs {
     }
 
 
-    @When("I change the name of the candidate with id {string} to {string}")
-    public void iChangeNameOfCandidateTo(String id, String name) throws Throwable {
+    @When("I change the name of the candidate to {string}")
+    public void iChangeNameOfCandidateTo(String name) throws Throwable {
 
         Candidate candidate = new Candidate();
-        candidate.setId(Long.valueOf(id));
         candidate.setName(name);
+        candidateRepository.save(candidate);
 
-        newResourceUri = "/candidates/"+ id;
+        newResourceUri = "/candidates/"+ candidate.getId();
 
         stepDefs.result = stepDefs.mockMvc.perform(
                 patch(newResourceUri)

@@ -24,7 +24,7 @@ public class ReadSelectionProcessStepDefs {
         this.selectionProcessRepository = selectionProcessRepository;
     }
 
-    @When("I create a selection process with vacancy {string}")
+    @And("A created selection process with vacancy {string}")
     public void iCreateANewSelectionProcessWithVacancy(String vacancy) throws Throwable {
         SelectionProcess selectionProcess = new SelectionProcess();
         selectionProcess.setVacancy(vacancy);
@@ -40,7 +40,7 @@ public class ReadSelectionProcessStepDefs {
 
     }
 
-    @Then("I read the selection process I have just created with vacancy {string}")
+    @When("I read the selection process I have just created with vacancy {string}")
     public void iReadANewSelectionProcessWithVacancy(String vacancy) throws Throwable {
         newResourceUri = stepDefs.result.andReturn().getResponse().getHeader("Location");
 

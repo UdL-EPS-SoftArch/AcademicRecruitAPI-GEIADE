@@ -4,11 +4,13 @@ import cat.udl.eps.softarch.academicrecruit.domain.SelectionProcess;
 import cat.udl.eps.softarch.academicrecruit.repository.SelectionProcessRepository;
 
 import io.cucumber.java.en.When;
-import io.cucumber.java.en.Then;
+import io.cucumber.java.en.And;
 import org.springframework.http.MediaType;
 
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 public class DeleteSelectionProcessStepDefs {
 
@@ -21,7 +23,7 @@ public class DeleteSelectionProcessStepDefs {
         this.selectionProcessRepository = selectionProcessRepository;
     }
 
-    @When("I create a selection process with vacancy {string}")
+    @And("A created selection process with vacancy {string}")
     public void iCreateANewSelectionProcessWithVacancy(String vacancy) throws Throwable {
         SelectionProcess selectionProcess = new SelectionProcess();
         selectionProcess.setVacancy(vacancy);
@@ -37,7 +39,7 @@ public class DeleteSelectionProcessStepDefs {
 
     }
 
-    @Then("I delete the selection process I have just created with vacancy {string}")
+    @When("I delete the selection process I have just created with vacancy {string}")
     public void iDeleteANewSelectionProcessWithVacancy(String vacancy) throws Throwable {
         newResourceUri = stepDefs.result.andReturn().getResponse().getHeader("Location");
 
@@ -48,6 +50,16 @@ public class DeleteSelectionProcessStepDefs {
                         .with(AuthenticationStepDefs.authenticate()))
                 .andDo(print());
 
+    }
+
+    @And("It has been deleted a selection process with vacancy {string}")
+    public void itHasBeenCDeletedASelectionProcessWithVacancy(String vacancy) throws Throwable {
+        newResourceUri = stepDefs.result.andReturn().getResponse().getHeader("Location");
+        stepDefs.result = stepDefs.mockMvc.perform(
+                get(newResourceUri)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .with(AuthenticationStepDefs.authenticate()))
+                .andDo(print());
     }
 
 }

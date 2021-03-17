@@ -24,22 +24,6 @@ public class ReadSelectionProcessStepDefs {
         this.selectionProcessRepository = selectionProcessRepository;
     }
 
-    @And("A created selection process with vacancy {string}")
-    public void iCreateANewSelectionProcessWithVacancy(String vacancy) throws Throwable {
-        SelectionProcess selectionProcess = new SelectionProcess();
-        selectionProcess.setVacancy(vacancy);
-
-        newResourceUri = "/selectionProcesses";
-        stepDefs.result = stepDefs.mockMvc.perform(
-                post(newResourceUri)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(stepDefs.mapper.writeValueAsString(selectionProcess))
-                        .accept(MediaType.APPLICATION_JSON)
-                        .with(AuthenticationStepDefs.authenticate()))
-                .andDo(print());
-
-    }
-
     @When("I read the selection process I have just created with vacancy {string}")
     public void iReadANewSelectionProcessWithVacancy(String vacancy) throws Throwable {
         newResourceUri = stepDefs.result.andReturn().getResponse().getHeader("Location");
@@ -49,19 +33,9 @@ public class ReadSelectionProcessStepDefs {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .with(AuthenticationStepDefs.authenticate()))
-                .andDo(print());
-
-    }
-
-    @And("It has been retrieved a selection process with vacancy {string}")
-    public void itHasBeenRetrievedASelectionProcessWithVacancy(String vacancy) throws Throwable {
-        newResourceUri = stepDefs.result.andReturn().getResponse().getHeader("Location");
-        stepDefs.result = stepDefs.mockMvc.perform(
-                get(newResourceUri)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .with(AuthenticationStepDefs.authenticate()))
                 .andDo(print())
                 .andExpect(jsonPath("$.vacancy", is(vacancy)));
-    }
 
+
+    }
 }

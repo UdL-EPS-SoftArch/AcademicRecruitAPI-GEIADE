@@ -1,4 +1,5 @@
 package cat.udl.eps.softarch.academicrecruit.steps;
+import static org.junit.Assert.*;
 
 import cat.udl.eps.softarch.academicrecruit.domain.SelectionProcess;
 import cat.udl.eps.softarch.academicrecruit.repository.SelectionProcessRepository;
@@ -6,6 +7,8 @@ import cat.udl.eps.softarch.academicrecruit.repository.SelectionProcessRepositor
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.And;
 import org.springframework.http.MediaType;
+
+import java.util.Collections;
 
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -23,22 +26,6 @@ public class DeleteSelectionProcessStepDefs {
         this.selectionProcessRepository = selectionProcessRepository;
     }
 
-    @And("A created selection process with vacancy {string}")
-    public void iCreateANewSelectionProcessWithVacancy(String vacancy) throws Throwable {
-        SelectionProcess selectionProcess = new SelectionProcess();
-        selectionProcess.setVacancy(vacancy);
-
-        newResourceUri = "/selectionProcesses";
-        stepDefs.result = stepDefs.mockMvc.perform(
-                post(newResourceUri)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(stepDefs.mapper.writeValueAsString(selectionProcess))
-                        .accept(MediaType.APPLICATION_JSON)
-                        .with(AuthenticationStepDefs.authenticate()))
-                .andDo(print());
-
-    }
-
     @When("I delete the selection process I have just created with vacancy {string}")
     public void iDeleteANewSelectionProcessWithVacancy(String vacancy) throws Throwable {
         newResourceUri = stepDefs.result.andReturn().getResponse().getHeader("Location");
@@ -50,16 +37,7 @@ public class DeleteSelectionProcessStepDefs {
                         .with(AuthenticationStepDefs.authenticate()))
                 .andDo(print());
 
-    }
+        assertEquals(selectionProcessRepository.findByVacancy(vacancy), Collections.emptyList());
 
-    @And("It has been deleted a selection process with vacancy {string}")
-    public void itHasBeenCDeletedASelectionProcessWithVacancy(String vacancy) throws Throwable {
-        newResourceUri = stepDefs.result.andReturn().getResponse().getHeader("Location");
-        stepDefs.result = stepDefs.mockMvc.perform(
-                get(newResourceUri)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .with(AuthenticationStepDefs.authenticate()))
-                .andDo(print());
     }
-
 }

@@ -8,7 +8,6 @@ Feature: Read SelectionProcess
 
   Scenario: User with secretary role read a selection process
     Given I login as "admin" with password "password"
-    And A created selection process with vacancy "sample"
+    And I create a selection process with vacancy "sample"
     When I read the selection process I have just created with vacancy "sample"
     Then The response code is 201
-    And It has been retrieved a selection process with vacancy "sample"

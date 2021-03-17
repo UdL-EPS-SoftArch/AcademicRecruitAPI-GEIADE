@@ -8,8 +8,6 @@ Feature: Delete SelectionProcess
 
   Scenario: User with secretary role delete a selection process
     Given I login as "admin" with password "password"
-    And A created selection process with vacancy "sample"
+    And I create a selection process with vacancy "sample"
     When I delete the selection process I have just created with vacancy "sample"
-    Then The response code is 201
-    And It has been deleted a selection process with vacancy "sample"
-    Then The response code is 404
+    Then The response code is 204

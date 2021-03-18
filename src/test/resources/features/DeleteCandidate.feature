@@ -1,4 +1,4 @@
-Feature: Candidate Delte
+Feature: Candidate Delete
   In order to control candidates
   As an administrator
   I want to delete existing candidates

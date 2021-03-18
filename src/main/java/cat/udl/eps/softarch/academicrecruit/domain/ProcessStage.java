@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -19,12 +20,12 @@ public class ProcessStage extends UriEntity<Long> {
     private Long id;
 
     @NotBlank
-    @Length(min = 8, max = 256)
+    @Length(min = 4, max = 256)
     private String name;
 
     @NotNull
     @Min(1)
-    @Min(3)
+    @Max(3)
     private int step;
 
     private Date beginDate;

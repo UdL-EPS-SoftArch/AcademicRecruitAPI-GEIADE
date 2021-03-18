@@ -13,7 +13,6 @@ Feature: Delete Participant
     When I delete a participant with id "1"
     Then The response code is 204
     And The previously deleted participant doesn't exist
-    And The response code is 404
 
   Scenario: User deletes participant
     Given I login as "admin" with password "password"

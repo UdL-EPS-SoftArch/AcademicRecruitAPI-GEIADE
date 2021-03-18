@@ -25,7 +25,7 @@ public class UpdateProcessStageStepDefs {
     }
 
     @When("I change the step of the process stage with id {string} to {int}")
-    public void iChangeRoleOfParticipantTo(String id, int step) throws Throwable {
+    public void iChangeStepOfProcessStageWithId(String id, int step) throws Throwable {
         newResourceUri = "/processStages/"+ id;
 
         stepDefs.result = stepDefs.mockMvc.perform(
@@ -41,7 +41,7 @@ public class UpdateProcessStageStepDefs {
     }
 
     @And("The previously updated process stage has now step {int}")
-    public void thePreviouslyUpdatedDatasetHasNowTitle(int newStep) throws Throwable {
+    public void thePreviouslyUpdatedProcessStageHasNowStep(int newStep) throws Throwable {
         stepDefs.result = stepDefs.mockMvc.perform(
                 get(newResourceUri)
                         .accept(MediaType.APPLICATION_JSON)

@@ -25,7 +25,7 @@ public class CreateProcessStageStepDefs {
     }
 
     @When("I create a processStage with name {string} and step {int}")
-    public void iCreateANewDatasetWithTitleAndDescription(String name, int step) throws Throwable {
+    public void iCreateANewProcessStageWithNameAndStep(String name, int step) throws Throwable {
         ProcessStage processStage = new ProcessStage();
         processStage.setStep(step);
         processStage.setName(name);
@@ -40,7 +40,7 @@ public class CreateProcessStageStepDefs {
     }
 
     @And("It has been created a processStage with name {string} and step {int}")
-    public void itHasBeenCreatedAParticipantWithRoleAndIsProvidedBy(String name, int step) throws Throwable {
+    public void itHasBeenCreatedAProcessStageWithStepAndName(String name, int step) throws Throwable {
         String newResourceUri = stepDefs.result.andReturn().getResponse().getHeader("Location");
         stepDefs.result = stepDefs.mockMvc.perform(
                 get(newResourceUri)

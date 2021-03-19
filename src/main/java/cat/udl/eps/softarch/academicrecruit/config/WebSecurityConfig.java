@@ -42,6 +42,12 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
                 .antMatchers(HttpMethod.PATCH, "/**/*").authenticated()
                 .antMatchers(HttpMethod.DELETE, "/**/*").authenticated()
 
+                .antMatchers(HttpMethod.POST, "/selectionProcesses/*").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PATCH, "/selectionProcesses/*").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/selectionProcesses/*").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/selectionProcesses/*").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/selectionProcesses/*").authenticated()
+
                 .anyRequest().permitAll()
                 .and()
                 .httpBasic().realmName("Academic Recruit")

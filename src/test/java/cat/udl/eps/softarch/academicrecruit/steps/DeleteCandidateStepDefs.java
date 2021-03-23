@@ -14,6 +14,7 @@ package cat.udl.eps.softarch.academicrecruit.steps;
         import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
         import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
         import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+        import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class DeleteCandidateStepDefs {
     final StepDefs stepDefs;
@@ -24,13 +25,6 @@ public class DeleteCandidateStepDefs {
     public DeleteCandidateStepDefs(StepDefs stepDefs, CandidateRepository candidateRepository) {
         this.stepDefs = stepDefs;
         this.candidateRepository = candidateRepository;
-    }
-
-    @Given("There is a candidate with name {string}")
-    public void thereIsACandidateWithName(String name){
-
-        candidate.setName(name);
-        candidateRepository.save(candidate);
     }
 
     @When("I delete a candidate with name {string}")
@@ -57,6 +51,7 @@ public class DeleteCandidateStepDefs {
                 get (newResourceUri)
                         .accept(MediaType.APPLICATION_JSON)
                         .with(AuthenticationStepDefs.authenticate()))
-                .andDo(print());
+                .andDo(print())
+                .andExpect(status().isNotFound());
     }
 }

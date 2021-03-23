@@ -9,7 +9,7 @@ Feature: Candidate Delete
     And I create a candidate with name "name"
 
   Scenario: Admin deletes participant
+    Given There is a candidate with name "lluc"
     When I delete a candidate with name "lluc"
     Then The response code is 204
     And The previously deleted candidate doesn't exist
-    And The response code is 404

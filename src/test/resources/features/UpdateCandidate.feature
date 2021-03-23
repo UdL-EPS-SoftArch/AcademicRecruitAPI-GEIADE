@@ -9,6 +9,7 @@ Feature: Update Candidate
     And I create a candidate with name "name"
 
   Scenario: Admin updates name
+    Given There is a candidate with name "pol"
     When I change the name of the candidate to "lluc"
     Then The response code is 200
     And The previously updated candidate has now name "lluc"

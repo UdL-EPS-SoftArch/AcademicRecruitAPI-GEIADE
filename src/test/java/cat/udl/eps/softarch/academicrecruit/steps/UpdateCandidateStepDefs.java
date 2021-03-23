@@ -5,6 +5,7 @@ import cat.udl.eps.softarch.academicrecruit.domain.Participant;
 import cat.udl.eps.softarch.academicrecruit.repository.CandidateRepository;
 import cat.udl.eps.softarch.academicrecruit.repository.ParticipantRepository;
 import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import org.json.JSONObject;
 import org.springframework.http.MediaType;
@@ -20,6 +21,7 @@ public class UpdateCandidateStepDefs {
     final StepDefs stepDefs;
     final CandidateRepository candidateRepository;
     private String newResourceUri;
+    private Candidate candidate = new Candidate();
 
     public UpdateCandidateStepDefs(StepDefs stepDefs, CandidateRepository candidateRepository) {
         this.stepDefs = stepDefs;
@@ -27,19 +29,22 @@ public class UpdateCandidateStepDefs {
     }
 
 
-    @When("I change the name of the candidate to {string}")
-    public void iChangeNameOfCandidateTo(String name) throws Throwable {
+    @Given("There is a candidate with name {string}")
+    public void thereIsACandidateWithName(String name){
 
-        Candidate candidate = new Candidate();
         candidate.setName(name);
         candidateRepository.save(candidate);
+    }
+
+    @When("I change the name of the candidate to {string}")
+    public void iChangeNameOfCandidateTo(String name) throws Throwable {
 
         newResourceUri = "/candidates/"+ candidate.getId();
 
         stepDefs.result = stepDefs.mockMvc.perform(
                 patch(newResourceUri)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(stepDefs.mapper.writeValueAsString(candidate))
+                        .content((new JSONObject().put("name",name)).toString())
                         .accept(MediaType.APPLICATION_JSON)
                         .with(AuthenticationStepDefs.authenticate())
         ).andDo(print());

@@ -30,10 +30,15 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
                 .antMatchers(HttpMethod.POST, "/users").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST, "/users/*").denyAll()
 
+                .antMatchers(HttpMethod.POST, "/participants").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST, "/participants/*").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PATCH, "/participants").hasRole("ADMIN")
                 .antMatchers(HttpMethod.PATCH, "/participants/*").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/participants").hasRole("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/participants/*").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/participants").hasRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/participants/*").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/participants").authenticated()
                 .antMatchers(HttpMethod.GET, "/participants/*").authenticated()
 
 
@@ -41,6 +46,12 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
                 .antMatchers(HttpMethod.PUT, "/**/*").authenticated()
                 .antMatchers(HttpMethod.PATCH, "/**/*").authenticated()
                 .antMatchers(HttpMethod.DELETE, "/**/*").authenticated()
+
+                .antMatchers(HttpMethod.POST, "/selectionProcesses/*").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PATCH, "/selectionProcesses/*").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/selectionProcesses/*").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/selectionProcesses/*").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/selectionProcesses/*").authenticated()
 
                 .anyRequest().permitAll()
                 .and()

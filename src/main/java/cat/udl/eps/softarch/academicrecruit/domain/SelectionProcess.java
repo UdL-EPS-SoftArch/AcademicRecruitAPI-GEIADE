@@ -1,6 +1,7 @@
 package cat.udl.eps.softarch.academicrecruit.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -29,9 +30,12 @@ public class SelectionProcess extends UriEntity<Long>{
     private String vacancy;
 
     @OneToMany (mappedBy = "selectionProcess")
+    @JsonIdentityReference(alwaysAsId = true)
     private List<ProcessStage> processStages;
 
     @OneToOne
+    @JsonIdentityReference(alwaysAsId = true)
     private ProcessStage activeProcessStage;
+
 
 }

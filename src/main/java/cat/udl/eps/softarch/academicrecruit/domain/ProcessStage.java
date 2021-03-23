@@ -1,5 +1,6 @@
 package cat.udl.eps.softarch.academicrecruit.domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
@@ -32,8 +33,10 @@ public class ProcessStage extends UriEntity<Long> {
     private Date endDate;
 
     @ManyToOne
+    @JsonIdentityReference(alwaysAsId = true)
     private SelectionProcess selectionProcess;
 
     @OneToOne(mappedBy = "activeProcessStage")
+    @JsonIdentityReference(alwaysAsId = true)
     private SelectionProcess selectionProcessBeingActive;
 }

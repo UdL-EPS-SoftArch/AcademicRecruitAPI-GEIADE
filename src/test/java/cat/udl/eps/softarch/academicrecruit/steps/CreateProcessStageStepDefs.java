@@ -19,6 +19,8 @@ public class CreateProcessStageStepDefs {
     final ProcessStageRepository processStageRepository;
     final SelectionProcessRepository selectionProcessRepository;
 
+    String newResourceUri;
+
     public CreateProcessStageStepDefs(StepDefs stepDefs, ProcessStageRepository processStageRepository, SelectionProcessRepository selectionProcessRepository) {
         this.stepDefs = stepDefs;
         this.processStageRepository = processStageRepository;
@@ -42,7 +44,7 @@ public class CreateProcessStageStepDefs {
 
     @And("It has been created a processStage with name {string} and step {int}")
     public void itHasBeenCreatedAProcessStageWithStepAndName(String name, int step) throws Throwable {
-        String newResourceUri = stepDefs.result.andReturn().getResponse().getHeader("Location");
+        newResourceUri = stepDefs.result.andReturn().getResponse().getHeader("Location");
         stepDefs.result = stepDefs.mockMvc.perform(
                 get(newResourceUri)
                         .accept(MediaType.APPLICATION_JSON)
@@ -68,15 +70,14 @@ public class CreateProcessStageStepDefs {
                 .andDo(print());
     }
 
-    @And("It has been created a processStage with name {string} and step {int} associated to selection process with vacancy {string}")
-    public void itHasBeenCreatedAProcessStageWithStepAndNameAndVacancy(String name, int step, String vacancy) throws Throwable {
-        String newResourceUri = stepDefs.result.andReturn().getResponse().getHeader("Location");
+    @And("It has been created a processStage associated to selection process with vacancy {string}")
+    public void itHasBeenCreatedAProcessStageWithStepAndNameAndVacancy(String vacancy) throws Throwable {
+        newResourceUri = newResourceUri + "/selectionProcess";
         stepDefs.result = stepDefs.mockMvc.perform(
                 get(newResourceUri)
                         .accept(MediaType.APPLICATION_JSON)
                         .with(AuthenticationStepDefs.authenticate()))
                 .andDo(print())
-                .andExpect(jsonPath("$.name", is(name)))
-                .andExpect(jsonPath("$.step", is(step)));
+                .andExpect(jsonPath("$.vacancy", is(vacancy)));
     }
 }

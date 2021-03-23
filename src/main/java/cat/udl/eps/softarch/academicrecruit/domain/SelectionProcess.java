@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -26,4 +27,11 @@ public class SelectionProcess extends UriEntity<Long>{
     @NotBlank
     @Length(max = 256)
     private String vacancy;
+
+    @OneToMany (mappedBy = "selectionProcess")
+    private List<ProcessStage> processStages;
+
+    @OneToOne
+    private ProcessStage activeProcessStage;
+
 }

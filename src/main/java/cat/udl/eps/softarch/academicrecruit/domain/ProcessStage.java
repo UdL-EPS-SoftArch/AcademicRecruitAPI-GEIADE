@@ -30,4 +30,10 @@ public class ProcessStage extends UriEntity<Long> {
 
     private Date beginDate;
     private Date endDate;
+
+    @ManyToOne
+    private SelectionProcess selectionProcess;
+
+    @OneToOne(mappedBy = "activeProcessStage")
+    private SelectionProcess selectionProcessBeingActive;
 }

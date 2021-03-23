@@ -5,6 +5,7 @@ package cat.udl.eps.softarch.academicrecruit.steps;
         import cat.udl.eps.softarch.academicrecruit.repository.CandidateRepository;
         import cat.udl.eps.softarch.academicrecruit.repository.ParticipantRepository;
         import io.cucumber.java.en.And;
+        import io.cucumber.java.en.Given;
         import io.cucumber.java.en.When;
         import org.springframework.http.MediaType;
 
@@ -18,12 +19,19 @@ public class DeleteCandidateStepDefs {
     final StepDefs stepDefs;
     final CandidateRepository candidateRepository;
     private String newResourceUri;
+    private Candidate candidate = new Candidate();
 
     public DeleteCandidateStepDefs(StepDefs stepDefs, CandidateRepository candidateRepository) {
         this.stepDefs = stepDefs;
         this.candidateRepository = candidateRepository;
     }
 
+    @Given("There is a candidate with name {string}")
+    public void thereIsACandidateWithName(String name){
+
+        candidate.setName(name);
+        candidateRepository.save(candidate);
+    }
 
     @When("I delete a candidate with name {string}")
     public void iDeleteCandidateTo(String name) throws Throwable {

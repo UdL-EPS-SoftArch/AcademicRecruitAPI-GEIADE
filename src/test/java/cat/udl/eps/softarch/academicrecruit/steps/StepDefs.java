@@ -59,6 +59,11 @@ public class StepDefs {
         result.andExpect(status().is(code));
     }
 
+    @Then("^The response code is successful")
+    public void theResponseCodeIsSuccessful() throws Throwable {
+        result.andExpect(status().is2xxSuccessful());
+    }
+
     @And("^The error message is \"([^\"]*)\"$")
     public void theErrorMessageIs(String message) throws Throwable {
         if (result.andReturn().getResponse().getContentAsString().isEmpty())

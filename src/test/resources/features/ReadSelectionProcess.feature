@@ -10,4 +10,4 @@ Feature: Read SelectionProcess
     Given I login as "admin" with password "password"
     And I create a selection process with vacancy "sample"
     When I read the selection process I have just created with vacancy "sample"
-    Then The response code is 201
+    Then The response code is successful

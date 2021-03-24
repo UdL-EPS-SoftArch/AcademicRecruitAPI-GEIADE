@@ -37,8 +37,4 @@ public class ProcessStage extends UriEntity<Long> {
     @ManyToOne
     @JsonIdentityReference(alwaysAsId = true)
     private SelectionProcess selectionProcess;
-
-    @OneToOne(mappedBy = "activeProcessStage")
-    @JsonIdentityReference(alwaysAsId = true)
-    private SelectionProcess selectionProcessBeingActive;
 }

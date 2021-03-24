@@ -31,10 +31,6 @@ public class SelectionProcess extends UriEntity<Long>{
     @Length(max = 256)
     private String vacancy;
 
-    @OneToMany (mappedBy = "selectionProcess")
-    @JsonIdentityReference(alwaysAsId = true)
-    private List<ProcessStage> processStages;
-
     @OneToOne
     @JsonIdentityReference(alwaysAsId = true)
     private ProcessStage activeProcessStage;

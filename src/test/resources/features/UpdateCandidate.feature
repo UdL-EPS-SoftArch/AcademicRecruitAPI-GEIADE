@@ -1,6 +1,6 @@
 Feature: Update Candidate
   In order to modify the candidate
-  As a admin
+  As an admin
   I want to update a candidate
 
   Background:

@@ -1,5 +1,6 @@
 package cat.udl.eps.softarch.academicrecruit.domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
@@ -79,4 +80,8 @@ public class User extends UriEntity<String> implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER");
     }
+
+    @ManyToOne(optional = false)
+    @JsonIdentityReference(alwaysAsId = true)
+    private Document document;
 }

@@ -56,7 +56,6 @@ public class UpdateProcessStageStepDefs {
                 .andExpect(jsonPath("$.step", is(newStep)));
     }
 
-    @Transactional
     @And("I associate the processStage with id {int} as active into to the selection process with vacancy {string}")
     public void associateProcessStageActiveToSelectionProcess(int id, String vacancy) throws Throwable {
         SelectionProcess selectionProcess = selectionProcessRepository.findByVacancy(vacancy).get(0);

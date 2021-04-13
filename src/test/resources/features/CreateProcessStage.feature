@@ -16,3 +16,11 @@ Feature: Create ProcessStage
     Given I login as "admin" with password "password"
     When I create a processStage with name "Ronda 1" and step 5
     Then The response code is 400
+
+  Scenario: Admin Created Process Stage associated to Selection Process
+    Given I login as "admin" with password "password"
+    And I create a selection process with vacancy "Profesor"
+    When I create a processStage with name "Ronda 1" and step 2 associated to selection process with vacancy "Profesor"
+    Then The response code is 201
+    And It has been created a processStage with name "Ronda 1" and step 2
+    And It has been created a processStage associated to selection process with vacancy "Profesor"

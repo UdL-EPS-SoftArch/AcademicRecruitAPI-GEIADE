@@ -59,17 +59,19 @@ public class CreateParticipantStepDefs {
     @And("I associate the previous created participant to user with username {string}")
     public void associatedAParticipantToUserWithUsername(String username) throws Throwable {
         newResourceUri = stepDefs.result.andReturn().getResponse().getHeader("Location");
+
         URI uri = new URI(newResourceUri);
         String path = uri.getPath();
         String idStr = path.substring(path.lastIndexOf('/') + 1);
         Long id = Long.parseLong(idStr);
+
         Participant participant = participantRepository.findById(id).get();
-        System.out.println(id);
-        participant.setUser(userRepository.findByUsernameLike(username).get(0));
+        participant.setUser(userRepository.findById(username).get());
 
         stepDefs.result = stepDefs.mockMvc.perform(
-                post("/participant")
+                patch(newResourceUri)
                         .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("UTF-8")
                         .content(stepDefs.mapper.writeValueAsString(participant))
                         .accept(MediaType.APPLICATION_JSON)
                         .with(AuthenticationStepDefs.authenticate()))
@@ -84,6 +86,6 @@ public class CreateParticipantStepDefs {
                         .accept(MediaType.APPLICATION_JSON)
                         .with(AuthenticationStepDefs.authenticate()))
                 .andDo(print())
-                .andExpect(jsonPath("$.username", is(username)));
+                .andExpect(jsonPath("$.id", is(username)));
     }
 }

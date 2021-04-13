@@ -1,9 +1,9 @@
 package cat.udl.eps.softarch.academicrecruit.handler;
 
-import cat.udl.eps.softarch.academicrecruit.domain.Participant;
+import cat.udl.eps.softarch.academicrecruit.domain.ProcessStage;
 import cat.udl.eps.softarch.academicrecruit.domain.ProcessStage;
 import cat.udl.eps.softarch.academicrecruit.exception.ForbiddenException;
-import cat.udl.eps.softarch.academicrecruit.repository.ParticipantRepository;
+import cat.udl.eps.softarch.academicrecruit.repository.ProcessStageRepository;
 import cat.udl.eps.softarch.academicrecruit.repository.ProcessStageRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +26,7 @@ public class ProcessStageEventHandler {
     }
 
     @HandleBeforeCreate
-    public void handleParticipantPreCreate(ProcessStage processStage) {
+    public void handleProcessStagePreCreate(ProcessStage processStage) {
         logger.info("Before creating: {}", processStage.toString());
 
         if(processStage.getBeginDate() == null)
@@ -46,39 +46,39 @@ public class ProcessStageEventHandler {
     }
 
     @HandleBeforeSave
-    public void handleParticipantPreSave(ProcessStage processStage) {
+    public void handleProcessStagePreSave(ProcessStage processStage) {
         logger.info("Before updating: {}", processStage.toString());
 
         //How to know if fields have changed?
     }
 
     @HandleBeforeDelete
-    public void handleParticipantPreDelete(ProcessStage processStage) {
+    public void handleProcessStagePreDelete(ProcessStage processStage) {
         logger.info("Before deleting: {}", processStage.toString());
     }
 
     @HandleBeforeLinkSave
-    public void handleParticipantPreLinkSave(ProcessStage processStage, Object o) {
+    public void handleProcessStagePreLinkSave(ProcessStage processStage, Object o) {
         logger.info("Before linking: {} to {}", processStage.toString(), o.toString());
     }
 
     @HandleAfterCreate
-    public void handleParticipantPostCreate(ProcessStage processStage) {
+    public void handleProcessStagePostCreate(ProcessStage processStage) {
         logger.info("After creating: {}", processStage.toString());
     }
 
     @HandleAfterSave
-    public void handleParticipantPostSave(ProcessStage processStage) {
+    public void handleProcessStagePostSave(ProcessStage processStage) {
         logger.info("After updating: {}", processStage.toString());
     }
 
     @HandleAfterDelete
-    public void handleParticipantPostDelete(ProcessStage processStage) {
+    public void handleProcessStagePostDelete(ProcessStage processStage) {
         logger.info("After deleting: {}", processStage.toString());
     }
 
     @HandleAfterLinkSave
-    public void handleParticipantPostLinkSave(ProcessStage processStage, Object o) {
+    public void handleProcessStagePostLinkSave(ProcessStage processStage, Object o) {
         logger.info("After linking: {} to {}", processStage.toString(), o.toString());
     }
 }

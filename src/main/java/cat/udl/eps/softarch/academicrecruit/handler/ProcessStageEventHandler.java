@@ -2,12 +2,16 @@ package cat.udl.eps.softarch.academicrecruit.handler;
 
 import cat.udl.eps.softarch.academicrecruit.domain.Participant;
 import cat.udl.eps.softarch.academicrecruit.domain.ProcessStage;
+import cat.udl.eps.softarch.academicrecruit.exception.ForbiddenException;
 import cat.udl.eps.softarch.academicrecruit.repository.ParticipantRepository;
 import cat.udl.eps.softarch.academicrecruit.repository.ProcessStageRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.rest.core.annotation.*;
 import org.springframework.stereotype.Component;
+
+import java.util.Calendar;
+import java.util.Date;
 
 @Component
 @RepositoryEventHandler
@@ -24,11 +28,28 @@ public class ProcessStageEventHandler {
     @HandleBeforeCreate
     public void handleParticipantPreCreate(ProcessStage processStage) {
         logger.info("Before creating: {}", processStage.toString());
+
+        if(processStage.getBeginDate() == null)
+            processStage.setBeginDate(new Date()); //define a begin date if not set
+
+        if(processStage.getEndDate() == null) {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(new Date());
+            cal.add(Calendar.DATE, 7);
+            processStage.setEndDate(cal.getTime()); //define a end date if not set
+        }
+
+        if(processStage.getBeginDate().compareTo(processStage.getEndDate()) > 0) {
+            throw new ForbiddenException(); //begin date should be a date that is before end date
+        }
+
     }
 
     @HandleBeforeSave
     public void handleParticipantPreSave(ProcessStage processStage) {
         logger.info("Before updating: {}", processStage.toString());
+
+        //How to know if fields have changed?
     }
 
     @HandleBeforeDelete

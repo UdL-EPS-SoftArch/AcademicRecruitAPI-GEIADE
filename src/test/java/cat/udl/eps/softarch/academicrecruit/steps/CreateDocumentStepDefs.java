@@ -30,7 +30,7 @@ public class CreateDocumentStepDefs {
     public void iCreateANewDocumentWithTitle(String title, String vacancy) throws Throwable {
         Document document = new Document();
         document.setTitle(title);
-        document.setSelectionProcess(selectionProcessRepository.findbyVacancy(vacancy).get(0));
+        document.setSelectionProcess(selectionProcessRepository.findByVacancy(vacancy).get(0));
 
         stepDefs.result = stepDefs.mockMvc.perform(
                 post("/documents")

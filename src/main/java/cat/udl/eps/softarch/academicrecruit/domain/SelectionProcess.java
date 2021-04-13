@@ -1,6 +1,9 @@
 package cat.udl.eps.softarch.academicrecruit.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -12,6 +15,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -26,4 +30,10 @@ public class SelectionProcess extends UriEntity<Long>{
     @NotBlank
     @Length(max = 256)
     private String vacancy;
+
+    @OneToOne
+    @JsonIdentityReference(alwaysAsId = true)
+    private ProcessStage activeProcessStage;
+
+
 }

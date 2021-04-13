@@ -1,11 +1,15 @@
 package cat.udl.eps.softarch.academicrecruit.steps;
 
 import cat.udl.eps.softarch.academicrecruit.domain.Participant;
+import cat.udl.eps.softarch.academicrecruit.domain.ProcessStage;
 import cat.udl.eps.softarch.academicrecruit.repository.ParticipantRepository;
+import cat.udl.eps.softarch.academicrecruit.repository.UserRepository;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.When;
 import org.json.JSONObject;
 import org.springframework.http.MediaType;
+
+import java.net.URI;
 
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -18,10 +22,13 @@ public class CreateParticipantStepDefs {
 
     final StepDefs stepDefs;
     final ParticipantRepository participantRepository;
+    final UserRepository userRepository;
+    String newResourceUri;
 
-    public CreateParticipantStepDefs(StepDefs stepDefs, ParticipantRepository participantRepository) {
+    public CreateParticipantStepDefs(StepDefs stepDefs, ParticipantRepository participantRepository, UserRepository userRepository) {
         this.stepDefs = stepDefs;
         this.participantRepository = participantRepository;
+        this.userRepository = userRepository;
     }
 
     @When("I create a participant with role {string}")
@@ -47,5 +54,36 @@ public class CreateParticipantStepDefs {
                         .with(AuthenticationStepDefs.authenticate()))
                 .andDo(print())
                 .andExpect(jsonPath("$.role", is(role)));
+    }
+
+    @And("I associate the previous created participant to user with username {string}")
+    public void associatedAParticipantToUserWithUsername(String username) throws Throwable {
+        newResourceUri = stepDefs.result.andReturn().getResponse().getHeader("Location");
+        URI uri = new URI(newResourceUri);
+        String path = uri.getPath();
+        String idStr = path.substring(path.lastIndexOf('/') + 1);
+        Long id = Long.parseLong(idStr);
+        Participant participant = participantRepository.findById(id).get();
+        System.out.println(id);
+        participant.setUser(userRepository.findByUsernameLike(username).get(0));
+
+        stepDefs.result = stepDefs.mockMvc.perform(
+                post("/participant")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(stepDefs.mapper.writeValueAsString(participant))
+                        .accept(MediaType.APPLICATION_JSON)
+                        .with(AuthenticationStepDefs.authenticate()))
+                .andDo(print());
+    }
+
+    @And("It has been created a participant associated to user with username {string}")
+    public void itHasBeenAssociatedAParticipantToUserWithUsername(String username) throws Throwable {
+        newResourceUri = newResourceUri + "/user";
+        stepDefs.result = stepDefs.mockMvc.perform(
+                get(newResourceUri)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .with(AuthenticationStepDefs.authenticate()))
+                .andDo(print())
+                .andExpect(jsonPath("$.username", is(username)));
     }
 }

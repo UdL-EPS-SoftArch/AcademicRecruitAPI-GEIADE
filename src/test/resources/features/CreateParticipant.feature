@@ -18,3 +18,10 @@ Feature: Create Participant
     Given I login as "user" with password "password"
     When I create a participant with role "SECRETARY"
     Then The response code is 403
+
+  Scenario: Admin Created participant associated to user with username "user"
+    Given I login as "admin" with password "password"
+    When I create a participant with role "SECRETARY"
+    And I associate the previous created participant to user with username "user"
+    Then The response code is successful
+    And It has been created a participant associated to user with username "user"

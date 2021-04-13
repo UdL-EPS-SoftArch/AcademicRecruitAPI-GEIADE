@@ -17,8 +17,6 @@ Feature: Create Document
 
   Scenario: Document created by a User
     Given I login as "admin" with password "password"
-    And A Document is created by User "Secretari"
-    When A Document is created by User "Secretari"
+    When A Document is created by User "admin"
     Then The response code is 201
-    And It has been created a processStage with name "Ronda 1" and step 2
-    And It has been created a processStage associated to selection process with vacancy "Profesor"
+    And It has been created a Document by User "admin"

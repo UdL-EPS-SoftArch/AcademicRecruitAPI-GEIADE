@@ -1,6 +1,7 @@
 package cat.udl.eps.softarch.academicrecruit.steps;
 
 import cat.udl.eps.softarch.academicrecruit.domain.Document;
+import cat.udl.eps.softarch.academicrecruit.domain.User;
 import cat.udl.eps.softarch.academicrecruit.repository.DocumentRepository;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.When;
@@ -47,31 +48,29 @@ public class CreateDocumentStepDefs {
                 .andDo(print())
                 .andExpect(jsonPath("$.title", is(title)));
     }
-    @When("I create a processStage with name {string} and step {int} associated to selection process with vacancy {string}")
-    public void iCreateANewProcessStageWithNameAndStepAndVacancy(String name, int step, String vacancy) throws Throwable {
-        ProcessStage processStage = new ProcessStage();
-        processStage.setStep(step);
-        processStage.setName(name);
-        processStage.setSelectionProcess(selectionProcessRepository.findByVacancy(vacancy).get(0));
+    @When("A Document is created by User {string}")
+    public void aDocumentIsCreatedByUser(User user) throws Throwable {
+        Document document = new Document();
+        document.setUser(user);
 
         stepDefs.result = stepDefs.mockMvc.perform(
-                post("/processStages")
+                post("/documents")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(stepDefs.mapper.writeValueAsString(processStage))
+                        .content(stepDefs.mapper.writeValueAsString(document))
                         .accept(MediaType.APPLICATION_JSON)
                         .with(AuthenticationStepDefs.authenticate()))
                 .andDo(print());
     }
 
-    @And("It has been created a processStage associated to selection process with vacancy {string}")
-    public void itHasBeenCreatedAProcessStageWithStepAndNameAndVacancy(String vacancy) throws Throwable {
-        newResourceUri = newResourceUri + "/selectionProcess";
+    @And("It has been created a Document by User {string}")
+    public void itHasBeenCreatedADocumentWithUser(Document document) throws Throwable {
+        newResourceUri = newResourceUri + "/document";
         stepDefs.result = stepDefs.mockMvc.perform(
                 get(newResourceUri)
                         .accept(MediaType.APPLICATION_JSON)
                         .with(AuthenticationStepDefs.authenticate()))
                 .andDo(print())
-                .andExpect(jsonPath("$.vacancy", is(vacancy)));
+                .andExpect(jsonPath("$.document", is(document)));
     }
 
 }

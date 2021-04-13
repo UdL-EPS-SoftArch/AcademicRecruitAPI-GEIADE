@@ -4,7 +4,6 @@ import cat.udl.eps.softarch.academicrecruit.domain.SelectionProcess;
 import cat.udl.eps.softarch.academicrecruit.repository.SelectionProcessRepository;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.When;
-import org.json.JSONObject;
 import org.springframework.http.MediaType;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;

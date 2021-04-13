@@ -47,4 +47,31 @@ public class CreateDocumentStepDefs {
                 .andDo(print())
                 .andExpect(jsonPath("$.title", is(title)));
     }
+    @When("I create a processStage with name {string} and step {int} associated to selection process with vacancy {string}")
+    public void iCreateANewProcessStageWithNameAndStepAndVacancy(String name, int step, String vacancy) throws Throwable {
+        ProcessStage processStage = new ProcessStage();
+        processStage.setStep(step);
+        processStage.setName(name);
+        processStage.setSelectionProcess(selectionProcessRepository.findByVacancy(vacancy).get(0));
+
+        stepDefs.result = stepDefs.mockMvc.perform(
+                post("/processStages")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(stepDefs.mapper.writeValueAsString(processStage))
+                        .accept(MediaType.APPLICATION_JSON)
+                        .with(AuthenticationStepDefs.authenticate()))
+                .andDo(print());
+    }
+
+    @And("It has been created a processStage associated to selection process with vacancy {string}")
+    public void itHasBeenCreatedAProcessStageWithStepAndNameAndVacancy(String vacancy) throws Throwable {
+        newResourceUri = newResourceUri + "/selectionProcess";
+        stepDefs.result = stepDefs.mockMvc.perform(
+                get(newResourceUri)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .with(AuthenticationStepDefs.authenticate()))
+                .andDo(print())
+                .andExpect(jsonPath("$.vacancy", is(vacancy)));
+    }
+
 }

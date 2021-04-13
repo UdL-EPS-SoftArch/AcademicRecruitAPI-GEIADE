@@ -13,3 +13,12 @@ Feature: Create Document
     When I create a document with title "title"
     Then The response code is 201
     And It has been created a document with title "title"
+
+
+  Scenario: Document created by a User
+    Given I login as "admin" with password "password"
+    And A Document is created by User "Secretari"
+    When A Document is created by User "Secretari"
+    Then The response code is 201
+    And It has been created a processStage with name "Ronda 1" and step 2
+    And It has been created a processStage associated to selection process with vacancy "Profesor"

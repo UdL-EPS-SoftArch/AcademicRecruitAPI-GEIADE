@@ -17,9 +17,9 @@ public class CreateDocumentStepDefs {
     final StepDefs stepDefs;
     final DocumentRepository documentRepository;
     final CandidateRepository candidateRepository;
-
     final SelectionProcessRepository selectionProcessRepository;
     private String newResourceUri;
+
     public CreateDocumentStepDefs(StepDefs stepDefs, DocumentRepository documentRepository, SelectionProcessRepository selectionProcessRepository,  CandidateRepository candidateRepository) {
         this.stepDefs = stepDefs;
         this.documentRepository = documentRepository;
@@ -31,7 +31,6 @@ public class CreateDocumentStepDefs {
     public void iCreateANewDocumentWithTitle(String title) throws Throwable {
         Document document = new Document();
         document.setTitle(title);
-        documentRepository.save(document);
 
         stepDefs.result = stepDefs.mockMvc.perform(
                 post("/documents")
@@ -51,6 +50,9 @@ public class CreateDocumentStepDefs {
                 .andDo(print())
                 .andExpect(jsonPath("$.title", is(title)));
     }
+
+
+
     @When("I create a document with title {string} associated to selection process with vacancy {string}")
     public void iCreateANewDocumentWithTitleAndVacancy(String title, String vacancy) throws Throwable {
         Document document = new Document();
@@ -78,16 +80,11 @@ public class CreateDocumentStepDefs {
 
 
 
-    @When("I assign the candidate named {string} to the document titled {string}")
-    public void iAssignCandidateToDocument(String cand_name, String doc_title) throws Throwable {
-        Candidate candidate = new Candidate();
-        candidate.setName(cand_name);
-        candidateRepository.save(candidate);
-
+    @When("I create the document titled {string} with the candidate named {string} assigned")
+    public void iAssignCandidateToDocument(String doc_title, String cand_name) throws Throwable {
         Document document = new Document();
         document.setTitle(doc_title);
-        document.setCandidate(candidate);
-        documentRepository.save(document);
+        document.setCandidate(candidateRepository.findByName(cand_name).get(0));
 
         stepDefs.result = stepDefs.mockMvc.perform(
                 post("/documents")
@@ -99,10 +96,9 @@ public class CreateDocumentStepDefs {
     }
 
 
-    @And("It has been assigned the Candidate named {string} to the Document titled {string}")
-    public void itHasBeenAssignedACandidateToADocument(String cand_name, String doc_title) throws Throwable {
-
-        newResourceUri = stepDefs.result.andReturn().getResponse().getHeader("Location") + "/candidate";
+    @And("It has been assigned the Candidate named {string} to the document")
+    public void itHasBeenAssignedACandidateToADocument(String cand_name) throws Throwable {
+        newResourceUri = newResourceUri + "/candidate";
         stepDefs.result = stepDefs.mockMvc.perform(
                 get(newResourceUri)
                         .accept(MediaType.APPLICATION_JSON)

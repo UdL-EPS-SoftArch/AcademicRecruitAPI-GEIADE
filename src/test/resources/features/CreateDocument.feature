@@ -22,9 +22,11 @@ Feature: Create Document
     And It has been created a document with title "title"
     And It has been created a document associated to selection process with vacancy "vacancy"
 
+
   Scenario: Admin assigns Candidate to a Document
     Given I login as "admin" with password "password"
-    When I assign the candidate named "Miquel" to the document titled "document36"
+    And I create a candidate with name "Miquel"
+    When I create the document titled "document36" with the candidate named "Miquel" assigned
     Then The response code is 201
-    And It has been assigned the Candidate named "Miquel" to the Document titled "document36"
-
+    And It has been created a document with title "document36"
+    And It has been assigned the Candidate named "Miquel" to the document

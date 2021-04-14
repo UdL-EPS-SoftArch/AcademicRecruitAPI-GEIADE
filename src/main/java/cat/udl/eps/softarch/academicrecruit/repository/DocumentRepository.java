@@ -1,8 +1,12 @@
 package cat.udl.eps.softarch.academicrecruit.repository;
 
 import cat.udl.eps.softarch.academicrecruit.domain.Document;
+import cat.udl.eps.softarch.academicrecruit.domain.SelectionProcess;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+
+import java.util.List;
 
 @RepositoryRestResource
 public interface DocumentRepository extends PagingAndSortingRepository<Document, Long> {
@@ -13,6 +17,7 @@ public interface DocumentRepository extends PagingAndSortingRepository<Document,
      * Additional methods following the syntax defined in
      * https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods.query-creation
      */
+    List<Document> findByTitle(@Param("title") String title);
 
 
 }

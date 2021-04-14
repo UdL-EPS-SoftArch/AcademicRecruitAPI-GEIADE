@@ -13,3 +13,11 @@ Feature: Create Document
     When I create a document with title "title"
     Then The response code is 201
     And It has been created a document with title "title"
+
+
+  Scenario: Admin assigns Candidate to a Document
+    Given I login as "admin" with password "password"
+    When I assign the candidate named "Miquel" to the document titled "document36"
+    Then The response code is 201
+    And It has been assigned the Candidate named "Miquel" to the Document titled "document36"
+

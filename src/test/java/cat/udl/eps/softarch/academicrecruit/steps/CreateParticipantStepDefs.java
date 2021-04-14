@@ -2,8 +2,10 @@ package cat.udl.eps.softarch.academicrecruit.steps;
 
 import cat.udl.eps.softarch.academicrecruit.domain.Participant;
 import cat.udl.eps.softarch.academicrecruit.domain.ProcessStage;
+import cat.udl.eps.softarch.academicrecruit.domain.SelectionProcess;
 import cat.udl.eps.softarch.academicrecruit.repository.ParticipantRepository;
 import cat.udl.eps.softarch.academicrecruit.repository.UserRepository;
+import cat.udl.eps.softarch.academicrecruit.repository.SelectionProcessRepository;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.When;
 import org.json.JSONObject;
@@ -22,12 +24,14 @@ public class CreateParticipantStepDefs {
 
     final StepDefs stepDefs;
     final ParticipantRepository participantRepository;
+    final SelectionProcessRepository selectionProcessRepository;
     final UserRepository userRepository;
     String newResourceUri;
 
-    public CreateParticipantStepDefs(StepDefs stepDefs, ParticipantRepository participantRepository, UserRepository userRepository) {
+    public CreateParticipantStepDefs(StepDefs stepDefs, ParticipantRepository participantRepository, UserRepository userRepository, SelectionProcessRepository selectionProcessRepository) {
         this.stepDefs = stepDefs;
         this.participantRepository = participantRepository;
+        this.selectionProcessRepository = selectionProcessRepository;
         this.userRepository = userRepository;
     }
 
@@ -87,5 +91,33 @@ public class CreateParticipantStepDefs {
                         .with(AuthenticationStepDefs.authenticate()))
                 .andDo(print())
                 .andExpect(jsonPath("$.id", is(username)));
+    }
+
+
+
+    @When("I create a participant with with role {string} associated to selection process with vacancy {string}")
+    public void iCreateANewParticipantWithRoleAndVacancy(String role, String vacancy) throws Throwable {
+        Participant participant = new Participant();
+        participant.setRole(Participant.Role.valueOf(role));
+        participant.setSelectionProcess(selectionProcessRepository.findByVacancy(vacancy).get(0));
+
+        stepDefs.result = stepDefs.mockMvc.perform(
+                post("/participants")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(stepDefs.mapper.writeValueAsString(participant))
+                        .accept(MediaType.APPLICATION_JSON)
+                        .with(AuthenticationStepDefs.authenticate()))
+                .andDo(print());
+    }
+
+    @And("It has been created a participant associated to selection process with vacancy {string}")
+    public void itHasBeenCreatedAParticipantWithRoleAndVacancy(String vacancy) throws Throwable {
+        newResourceUri = newResourceUri + "/selectionProcess";
+        stepDefs.result = stepDefs.mockMvc.perform(
+                get(newResourceUri)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .with(AuthenticationStepDefs.authenticate()))
+                .andDo(print())
+                .andExpect(jsonPath("$.vacancy", is(vacancy)));
     }
 }

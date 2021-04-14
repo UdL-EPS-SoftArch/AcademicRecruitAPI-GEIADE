@@ -79,4 +79,5 @@ public class User extends UriEntity<String> implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER");
     }
+
 }

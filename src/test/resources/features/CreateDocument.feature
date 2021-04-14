@@ -13,3 +13,11 @@ Feature: Create Document
     When I create a document with title "title"
     Then The response code is 201
     And It has been created a document with title "title"
+
+  Scenario: Admin Created document associated to Selection Process
+    Given I login as "admin" with password "password"
+    And I create a selection process with vacancy "vacancy"
+    When I create a document with title "title" associated to selection process with vacancy "vacancy"
+    Then The response code is 201
+    And It has been created a document with title "title"
+    And It has been created a document associated to selection process with vacancy "vacancy"

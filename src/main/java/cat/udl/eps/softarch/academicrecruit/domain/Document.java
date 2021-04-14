@@ -1,5 +1,6 @@
 package cat.udl.eps.softarch.academicrecruit.domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -27,5 +28,8 @@ public class Document extends UriEntity<Long> {
 
     private String mime;
 
+    @ManyToOne
+    @JsonIdentityReference(alwaysAsId = true)
+    private SelectionProcess selectionProcess;
 }
 

@@ -25,6 +25,10 @@ public class Participant extends UriEntity<Long> {
 
     @ManyToOne
     @JsonIdentityReference(alwaysAsId = true)
+    private User user;
+
+    @ManyToOne
+    @JsonIdentityReference(alwaysAsId = true)
     private SelectionProcess selectionProcess;
 
 }

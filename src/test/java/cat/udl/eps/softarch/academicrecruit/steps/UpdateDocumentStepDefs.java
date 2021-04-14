@@ -32,7 +32,6 @@ public class UpdateDocumentStepDefs {
 
         Document doc = documentRepository.findById(Long.valueOf(id)).get();
         doc.setTitle(title);
-        documentRepository.save(doc);
 
         newResourceUri = "/participants/"+ doc.getId().toString();
 

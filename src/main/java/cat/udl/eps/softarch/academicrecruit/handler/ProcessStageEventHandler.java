@@ -7,11 +7,14 @@ import cat.udl.eps.softarch.academicrecruit.repository.ProcessStageRepository;
 import cat.udl.eps.softarch.academicrecruit.repository.ProcessStageRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.annotation.*;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.EntityManager;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 @Component
 @RepositoryEventHandler
@@ -20,6 +23,9 @@ public class ProcessStageEventHandler {
     final Logger logger = LoggerFactory.getLogger(ProcessStage.class);
 
     final ProcessStageRepository processStageRepository;
+
+    @Autowired
+    EntityManager entityManager;
 
     public ProcessStageEventHandler(ProcessStageRepository processStageRepository) {
         this.processStageRepository = processStageRepository;
@@ -43,13 +49,51 @@ public class ProcessStageEventHandler {
             throw new ForbiddenException(); //begin date should be a date that is before end date
         }
 
+        if(processStage.getSelectionProcess() == null) {
+            throw new ForbiddenException(); //it can't be null
+        }
+
+        List<ProcessStage> processStages = processStageRepository.findBySelectionProcessAndStep(processStage.getSelectionProcess(), processStage.getStep());
+        if(processStages.size() > 0) {
+            //There is already an existing processStage for the same selectionprocess and step
+            throw new ForbiddenException();
+        }
     }
 
     @HandleBeforeSave
     public void handleProcessStagePreSave(ProcessStage processStage) {
         logger.info("Before updating: {}", processStage.toString());
 
-        //How to know if fields have changed?
+        if(processStage.getBeginDate() == null)
+            processStage.setBeginDate(new Date()); //define a begin date if not set
+
+        if(processStage.getEndDate() == null) {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(new Date());
+            cal.add(Calendar.DATE, 14); //add 14 days
+            processStage.setEndDate(cal.getTime()); //define a end date if not set
+        }
+
+        if(processStage.getBeginDate().compareTo(processStage.getEndDate()) > 0) {
+            throw new ForbiddenException(); //begin date should be a date that is before end date
+        }
+
+        if(processStage.getSelectionProcess() == null) {
+            throw new ForbiddenException(); //it can't be null
+        }
+
+        entityManager.detach(processStage); //detach entity from entitymanager, so it can be retrieved
+        ProcessStage oldProcessStage = processStageRepository.findById(processStage.getId()).get();
+
+        if(oldProcessStage.getSelectionProcess() != processStage.getSelectionProcess()) {
+            throw new ForbiddenException(); //selectionProcess link has changed, and it shouldn't be changed
+        }
+
+        if(oldProcessStage.getStep() != processStage.getStep()) {
+            throw new ForbiddenException(); //selectionProcess step has changed, and it shouldn't be changed
+        }
+
+        entityManager.merge(processStage); //attach existing entity to entitymanager again
     }
 
     @HandleBeforeDelete
@@ -60,6 +104,7 @@ public class ProcessStageEventHandler {
     @HandleBeforeLinkSave
     public void handleProcessStagePreLinkSave(ProcessStage processStage, Object o) {
         logger.info("Before linking: {} to {}", processStage.toString(), o.toString());
+        throw new ForbiddenException(); //It must be defined on the create and the link can't be changed
     }
 
     @HandleAfterCreate

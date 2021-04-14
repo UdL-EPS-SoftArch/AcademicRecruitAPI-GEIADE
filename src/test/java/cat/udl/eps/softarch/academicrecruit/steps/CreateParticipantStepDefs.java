@@ -51,7 +51,7 @@ public class CreateParticipantStepDefs {
 
     @And("It has been created a participant with role {string}")
     public void itHasBeenCreatedAParticipantWithRoleAndIsProvidedBy(String role) throws Throwable {
-        String newResourceUri = stepDefs.result.andReturn().getResponse().getHeader("Location");
+        newResourceUri = stepDefs.result.andReturn().getResponse().getHeader("Location");
         stepDefs.result = stepDefs.mockMvc.perform(
                 get(newResourceUri)
                         .accept(MediaType.APPLICATION_JSON)

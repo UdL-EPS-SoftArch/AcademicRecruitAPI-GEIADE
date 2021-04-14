@@ -35,7 +35,7 @@ public class ProcessStageEventHandler {
         if(processStage.getEndDate() == null) {
             Calendar cal = Calendar.getInstance();
             cal.setTime(new Date());
-            cal.add(Calendar.DATE, 7);
+            cal.add(Calendar.DATE, 14); //add 14 days
             processStage.setEndDate(cal.getTime()); //define a end date if not set
         }
 

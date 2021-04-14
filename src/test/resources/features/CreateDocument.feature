@@ -17,6 +17,6 @@ Feature: Create Document
 
   Scenario: Document created by a User
     Given I login as "admin" with password "password"
-    When A Document is created by User "admin"
+    When A Document is created with title "title"
     Then The response code is 201
-    And It has been created a Document by User "admin"
+    And It has been created a Document by User with username "admin"

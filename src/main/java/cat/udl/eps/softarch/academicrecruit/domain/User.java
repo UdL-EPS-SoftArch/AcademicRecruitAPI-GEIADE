@@ -81,7 +81,7 @@ public class User extends UriEntity<String> implements UserDetails {
         return AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER");
     }
 
-    @ManyToOne(optional = false)
+    @ManyToOne
     @JsonIdentityReference(alwaysAsId = true)
     private Document document;
 }

@@ -48,10 +48,10 @@ public class CreateDocumentStepDefs {
                 .andDo(print())
                 .andExpect(jsonPath("$.title", is(title)));
     }
-    @When("A Document is created by User {string}")
-    public void aDocumentIsCreatedByUser(User user) throws Throwable {
+    @When("A Document is created with title {string}")
+    public void aDocumentIsCreatedByUser(String title) throws Throwable {
         Document document = new Document();
-        document.setUser(user);
+        document.setTitle(title);
 
         stepDefs.result = stepDefs.mockMvc.perform(
                 post("/documents")
@@ -62,15 +62,15 @@ public class CreateDocumentStepDefs {
                 .andDo(print());
     }
 
-    @And("It has been created a Document by User {string}")
-    public void itHasBeenCreatedADocumentWithUser(Document document) throws Throwable {
-        newResourceUri = newResourceUri + "/document";
+    @And("It has been created a Document by User with username {string}")
+    public void itHasBeenCreatedADocumentWithUser(String username) throws Throwable {
+        newResourceUri = stepDefs.result.andReturn().getResponse().getHeader("Location") + "/user";
         stepDefs.result = stepDefs.mockMvc.perform(
                 get(newResourceUri)
                         .accept(MediaType.APPLICATION_JSON)
                         .with(AuthenticationStepDefs.authenticate()))
                 .andDo(print())
-                .andExpect(jsonPath("$.document", is(document)));
+                .andExpect(jsonPath("$.", is(username)));
     }
 
 }

@@ -28,7 +28,7 @@ public class Document extends UriEntity<Long> {
 
     private String mime;
 
-    @ManyToOne(optional = false)
+    @ManyToOne
     @JsonIdentityReference(alwaysAsId = true)
     private User user;
 

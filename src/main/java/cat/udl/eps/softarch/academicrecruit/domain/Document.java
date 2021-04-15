@@ -30,6 +30,14 @@ public class Document extends UriEntity<Long> {
 
     @ManyToOne
     @JsonIdentityReference(alwaysAsId = true)
+    private Candidate candidate;
+
+    @ManyToOne
+    @JsonIdentityReference(alwaysAsId = true)
     private SelectionProcess selectionProcess;
+
+    @ManyToOne
+    @JsonIdentityReference(alwaysAsId = true)
+    private User user;
 }
 

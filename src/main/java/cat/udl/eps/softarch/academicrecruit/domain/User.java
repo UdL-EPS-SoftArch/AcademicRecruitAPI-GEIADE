@@ -80,4 +80,5 @@ public class User extends UriEntity<String> implements UserDetails {
         return AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER");
     }
 
+
 }

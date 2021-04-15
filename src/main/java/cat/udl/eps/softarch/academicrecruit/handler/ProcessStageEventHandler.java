@@ -1,9 +1,7 @@
 package cat.udl.eps.softarch.academicrecruit.handler;
 
 import cat.udl.eps.softarch.academicrecruit.domain.ProcessStage;
-import cat.udl.eps.softarch.academicrecruit.domain.ProcessStage;
 import cat.udl.eps.softarch.academicrecruit.exception.ForbiddenException;
-import cat.udl.eps.softarch.academicrecruit.repository.ProcessStageRepository;
 import cat.udl.eps.softarch.academicrecruit.repository.ProcessStageRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

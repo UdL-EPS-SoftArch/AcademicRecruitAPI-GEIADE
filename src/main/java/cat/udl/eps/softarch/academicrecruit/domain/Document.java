@@ -3,6 +3,7 @@ package cat.udl.eps.softarch.academicrecruit.domain;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
 import javax.persistence.*;
 
 @Entity
@@ -34,5 +35,9 @@ public class Document extends UriEntity<Long> {
     @ManyToOne
     @JsonIdentityReference(alwaysAsId = true)
     private SelectionProcess selectionProcess;
+
+    @ManyToOne
+    @JsonIdentityReference(alwaysAsId = true)
+    private User user;
 }
 

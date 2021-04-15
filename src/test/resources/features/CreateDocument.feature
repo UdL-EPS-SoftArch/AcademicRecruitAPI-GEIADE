@@ -14,6 +14,12 @@ Feature: Create Document
     Then The response code is 201
     And It has been created a document with title "title"
 
+  Scenario: Document created by a User
+    Given I login as "admin" with password "password"
+    When A Document is created with title "title"
+    Then The response code is 201
+    And It has been created a Document by User with username "admin"
+
   Scenario: Admin Created document associated to Selection Process
     Given I login as "admin" with password "password"
     And I create a selection process with vacancy "vacancy"

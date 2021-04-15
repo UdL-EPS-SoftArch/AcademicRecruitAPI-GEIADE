@@ -70,7 +70,7 @@ public class CreateDocumentStepDefs {
                         .accept(MediaType.APPLICATION_JSON)
                         .with(AuthenticationStepDefs.authenticate()))
                 .andDo(print())
-                .andExpect(jsonPath("$.", is(username)));
+                .andExpect(jsonPath("$.id", is(username)));
     }
 
 }

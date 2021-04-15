@@ -18,3 +18,18 @@ Feature: Create Participant
     Given I login as "user" with password "password"
     When I create a participant with role "SECRETARY"
     Then The response code is 403
+
+  Scenario: Admin Created Participant associated to Selection Process
+    Given I login as "admin" with password "password"
+    And I create a selection process with vacancy "Profesor Algebra"
+    When I create a participant with with role "SECRETARY" associated to selection process with vacancy "Profesor Algebra"
+    Then The response code is 201
+    And It has been created a participant with role "SECRETARY"
+    And It has been created a participant associated to selection process with vacancy "Profesor Algebra"
+
+  Scenario: Admin Created participant associated to user with username "user"
+    Given I login as "admin" with password "password"
+    When I create a participant with role "SECRETARY"
+    And I associate the previous created participant to user with username "user"
+    Then The response code is successful
+    And It has been created a participant associated to user with username "user"

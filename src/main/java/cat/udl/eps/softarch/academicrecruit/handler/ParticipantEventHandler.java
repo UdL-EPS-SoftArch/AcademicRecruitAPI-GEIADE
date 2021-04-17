@@ -4,6 +4,8 @@ import cat.udl.eps.softarch.academicrecruit.domain.Participant;
 import cat.udl.eps.softarch.academicrecruit.domain.User;
 import cat.udl.eps.softarch.academicrecruit.repository.ParticipantRepository;
 import cat.udl.eps.softarch.academicrecruit.repository.UserRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.rest.core.annotation.*;
@@ -22,42 +24,42 @@ public class ParticipantEventHandler {
     }
 
     @HandleBeforeCreate
-    public void handleParticipantPreCreate(Participant participant) {
-        logger.info("Before creating: {}", participant.toString());
+    public void handleParticipantPreCreate(Participant participant) throws JsonProcessingException {
+        logger.info("Before creating: {}", new ObjectMapper().writeValueAsString(participant));
     }
 
     @HandleBeforeSave
-    public void handleParticipantPreSave(Participant participant) {
-        logger.info("Before updating: {}", participant.toString());
+    public void handleParticipantPreSave(Participant participant) throws JsonProcessingException {
+        logger.info("Before updating: {}", new ObjectMapper().writeValueAsString(participant));
     }
 
     @HandleBeforeDelete
-    public void handleParticipantPreDelete(Participant participant) {
-        logger.info("Before deleting: {}", participant.toString());
+    public void handleParticipantPreDelete(Participant participant) throws JsonProcessingException {
+        logger.info("Before deleting: {}", new ObjectMapper().writeValueAsString(participant));
     }
 
     @HandleBeforeLinkSave
-    public void handleParticipantPreLinkSave(Participant participant, Object o) {
-        logger.info("Before linking: {} to {}", participant.toString(), o.toString());
+    public void handleParticipantPreLinkSave(Participant participant, Object o) throws JsonProcessingException {
+        logger.info("Before linking: {} to {}", new ObjectMapper().writeValueAsString(participant), new ObjectMapper().writeValueAsString(o));
     }
 
     @HandleAfterCreate
-    public void handleParticipantPostCreate(Participant participant) {
-        logger.info("After creating: {}", participant.toString());
+    public void handleParticipantPostCreate(Participant participant) throws JsonProcessingException {
+        logger.info("After creating: {}", new ObjectMapper().writeValueAsString(participant));
     }
 
     @HandleAfterSave
-    public void handleParticipantPostSave(Participant participant) {
-        logger.info("After updating: {}", participant.toString());
+    public void handleParticipantPostSave(Participant participant) throws JsonProcessingException {
+        logger.info("After updating: {}", new ObjectMapper().writeValueAsString(participant));
     }
 
     @HandleAfterDelete
-    public void handleParticipantPostDelete(Participant participant) {
-        logger.info("After deleting: {}", participant.toString());
+    public void handleParticipantPostDelete(Participant participant) throws JsonProcessingException {
+        logger.info("After deleting: {}", new ObjectMapper().writeValueAsString(participant));
     }
 
     @HandleAfterLinkSave
-    public void handleParticipantPostLinkSave(Participant participant, Object o) {
-        logger.info("After linking: {} to {}", participant.toString(), o.toString());
+    public void handleParticipantPostLinkSave(Participant participant, Object o) throws JsonProcessingException {
+        logger.info("After linking: {} to {}", new ObjectMapper().writeValueAsString(participant), new ObjectMapper().writeValueAsString(o));
     }
 }

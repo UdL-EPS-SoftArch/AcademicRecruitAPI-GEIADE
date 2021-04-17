@@ -5,6 +5,8 @@ import cat.udl.eps.softarch.academicrecruit.exception.ForbiddenException;
 import cat.udl.eps.softarch.academicrecruit.repository.DocumentRepository;
 import cat.udl.eps.softarch.academicrecruit.repository.DocumentRepository;
 import cat.udl.eps.softarch.academicrecruit.service.FileStorageService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +37,8 @@ public class DocumentEventHandler {
     }
 
     @HandleBeforeCreate
-    public void handleDocumentPreCreate(Document document) {
-        logger.info("Before creating: {}", document.toString());
+    public void handleDocumentPreCreate(Document document) throws JsonProcessingException {
+        logger.info("Before creating: {}", new ObjectMapper().writeValueAsString(document));
 
         if(document.getPath() != null) {
             throw new ForbiddenException(); //path should be read-only, and declared only on update
@@ -44,8 +46,8 @@ public class DocumentEventHandler {
     }
 
     @HandleBeforeSave
-    public void handleDocumentPreSave(Document document) {
-        logger.info("Before updating: {}", document.toString());
+    public void handleDocumentPreSave(Document document) throws JsonProcessingException {
+        logger.info("Before updating: {}", new ObjectMapper().writeValueAsString(document));
 
         entityManager.detach(document); //detach entity from entitymanager, so it can be retrieved
         Document oldDocument = documentRepository.findById(document.getId()).get();
@@ -62,8 +64,8 @@ public class DocumentEventHandler {
     }
 
     @HandleBeforeDelete
-    public void handleDocumentPreDelete(Document document) {
-        logger.info("Before deleting: {}", document.toString());
+    public void handleDocumentPreDelete(Document document) throws JsonProcessingException {
+        logger.info("Before deleting: {}", new ObjectMapper().writeValueAsString(document));
 
         if(document.getPath() != null) {
             fileStorageService.delete(document, true); //delete uploaded file
@@ -71,27 +73,27 @@ public class DocumentEventHandler {
     }
 
     @HandleBeforeLinkSave
-    public void handleDocumentPreLinkSave(Document document, Object o) {
-        logger.info("Before linking: {} to {}", document.toString(), o.toString());
+    public void handleDocumentPreLinkSave(Document document, Object o) throws JsonProcessingException {
+        logger.info("Before linking: {} to {}", new ObjectMapper().writeValueAsString(document), new ObjectMapper().writeValueAsString(o));
     }
 
     @HandleAfterCreate
-    public void handleDocumentPostCreate(Document document) {
-        logger.info("After creating: {}", document.toString());
+    public void handleDocumentPostCreate(Document document) throws JsonProcessingException {
+        logger.info("After creating: {}", new ObjectMapper().writeValueAsString(document));
     }
 
     @HandleAfterSave
-    public void handleDocumentPostSave(Document document) {
-        logger.info("After updating: {}", document.toString());
+    public void handleDocumentPostSave(Document document) throws JsonProcessingException {
+        logger.info("After updating: {}", new ObjectMapper().writeValueAsString(document));
     }
 
     @HandleAfterDelete
-    public void handleDocumentPostDelete(Document document) {
-        logger.info("After deleting: {}", document.toString());
+    public void handleDocumentPostDelete(Document document) throws JsonProcessingException {
+        logger.info("After deleting: {}", new ObjectMapper().writeValueAsString(document));
     }
 
     @HandleAfterLinkSave
-    public void handleDocumentPostLinkSave(Document document, Object o) {
-        logger.info("After linking: {} to {}", document.toString(), o.toString());
+    public void handleDocumentPostLinkSave(Document document, Object o) throws JsonProcessingException {
+        logger.info("After linking: {} to {}", new ObjectMapper().writeValueAsString(document), new ObjectMapper().writeValueAsString(o));
     }
 }

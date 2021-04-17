@@ -12,6 +12,7 @@ import org.springframework.data.rest.core.annotation.*;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -24,7 +25,7 @@ public class ProcessStageEventHandler {
 
     final ProcessStageRepository processStageRepository;
 
-    @Autowired
+    @PersistenceContext
     EntityManager entityManager;
 
     public ProcessStageEventHandler(ProcessStageRepository processStageRepository) {
@@ -85,15 +86,13 @@ public class ProcessStageEventHandler {
         entityManager.detach(processStage); //detach entity from entitymanager, so it can be retrieved
         ProcessStage oldProcessStage = processStageRepository.findById(processStage.getId()).get();
 
-        if(oldProcessStage.getSelectionProcess() != processStage.getSelectionProcess()) {
+        if(!oldProcessStage.getSelectionProcess().getId().equals(processStage.getSelectionProcess().getId())) {
             throw new ForbiddenException(); //selectionProcess link has changed, and it shouldn't be changed
         }
 
         if(oldProcessStage.getStep() != processStage.getStep()) {
             throw new ForbiddenException(); //selectionProcess step has changed, and it shouldn't be changed
         }
-
-        entityManager.merge(processStage); //attach existing entity to entitymanager again
     }
 
     @HandleBeforeDelete

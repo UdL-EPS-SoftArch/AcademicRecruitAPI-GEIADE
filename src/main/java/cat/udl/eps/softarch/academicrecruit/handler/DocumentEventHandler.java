@@ -68,6 +68,10 @@ public class DocumentEventHandler {
         entityManager.detach(document); //detach entity from entitymanager, so it can be retrieved
         Document oldDocument = documentRepository.findById(document.getId()).get();
 
+        if(!oldDocument.getUser().getId().equals(curr_user.getId()) || !document.getUser().getId().equals(curr_user.getId())) {
+            throw new ForbiddenException(); //document shall only be edited by the same user who created it, and the creator shouldn't be changed
+        }
+
         if(oldDocument.getPath() != null && !oldDocument.getPath().equals(document.getPath())) {
             if(document.getPath().contains("/"))
                 throw new ForbiddenException(); //this should be the just name of the file, without any path symbols

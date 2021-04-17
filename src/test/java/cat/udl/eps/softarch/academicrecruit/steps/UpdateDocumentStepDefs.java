@@ -6,7 +6,9 @@ import cat.udl.eps.softarch.academicrecruit.repository.DocumentRepository;
 import cat.udl.eps.softarch.academicrecruit.repository.ParticipantRepository;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.When;
+import org.json.JSONObject;
 import org.springframework.http.MediaType;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -27,18 +29,18 @@ public class UpdateDocumentStepDefs {
         this.documentRepository = documentRepository;
     }
 
+
     @When("I change the title of the document with id {string} to {string}")
     public void iChangeTitleOfDocumentTo(String id, String title) throws Throwable {
 
-        Document doc = documentRepository.findById(Long.valueOf(id)).get();
-        doc.setTitle(title);
-
-        newResourceUri = "/participants/"+ doc.getId().toString();
+        newResourceUri = "/documents/" + id;
 
         stepDefs.result = stepDefs.mockMvc.perform(
                 patch(newResourceUri)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(stepDefs.mapper.writeValueAsString(doc))
+                        .content(new JSONObject()
+                                .put("title", title)
+                                .toString())
                         .accept(MediaType.APPLICATION_JSON)
                         .with(AuthenticationStepDefs.authenticate())
         ).andDo(print());

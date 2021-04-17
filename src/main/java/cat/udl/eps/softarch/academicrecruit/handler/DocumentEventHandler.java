@@ -1,6 +1,7 @@
 package cat.udl.eps.softarch.academicrecruit.handler;
 
 import cat.udl.eps.softarch.academicrecruit.domain.Document;
+import cat.udl.eps.softarch.academicrecruit.domain.User;
 import cat.udl.eps.softarch.academicrecruit.exception.ForbiddenException;
 import cat.udl.eps.softarch.academicrecruit.repository.DocumentRepository;
 import cat.udl.eps.softarch.academicrecruit.repository.DocumentRepository;
@@ -9,9 +10,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.annotation.*;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -24,7 +29,7 @@ public class DocumentEventHandler {
 
     final DocumentRepository documentRepository;
 
-    @Autowired
+    @PersistenceContext
     EntityManager entityManager;
 
     @Autowired
@@ -41,14 +46,29 @@ public class DocumentEventHandler {
         if(document.getPath() != null) {
             throw new ForbiddenException(); //path should be read-only, and declared only on update
         }
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        logger.info("Username: {}", authentication.getAuthorities());
+
+        User curr_user = ((User)authentication.getPrincipal());
+        document.setUser(curr_user);
     }
 
     @HandleBeforeSave
     public void handleDocumentPreSave(Document document) {
         logger.info("Before updating: {}", document.toString());
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        logger.info("Username: {}", authentication.getAuthorities());
+
+        User curr_user = ((User)authentication.getPrincipal());
+
         entityManager.detach(document); //detach entity from entitymanager, so it can be retrieved
         Document oldDocument = documentRepository.findById(document.getId()).get();
+
+        if(!oldDocument.getUser().getId().equals(curr_user.getId()) || !document.getUser().getId().equals(curr_user.getId())) {
+            throw new ForbiddenException(); //document shall only be edited by the same user who created it, and the creator shouldn't be changed
+        }
 
         if(oldDocument.getPath() != null && !oldDocument.getPath().equals(document.getPath())) {
             if(document.getPath().contains("/"))
@@ -57,8 +77,6 @@ public class DocumentEventHandler {
 
             fileStorageService.delete(oldDocument, false); //delete previous file which has another name
         }
-
-        entityManager.merge(document); //attach existing entity to entitymanager again
     }
 
     @HandleBeforeDelete
@@ -73,6 +91,9 @@ public class DocumentEventHandler {
     @HandleBeforeLinkSave
     public void handleDocumentPreLinkSave(Document document, Object o) {
         logger.info("Before linking: {} to {}", document.toString(), o.toString());
+        if(o instanceof User) {
+            throw new ForbiddenException(); //createdUser shall not be changed
+        }
     }
 
     @HandleAfterCreate

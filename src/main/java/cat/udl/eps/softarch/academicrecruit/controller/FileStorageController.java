@@ -59,11 +59,12 @@ public class FileStorageController {
   @ResponseBody
   public ResponseEntity<Resource> getFile(@PathVariable Long fileid) {
     Optional<Document> document = documentRepository.findById(fileid);
+    Resource resource;
 
-    if(document.isPresent()) {
-      Resource resource = storageService.load(document.get());
+    if(document.isPresent() && (resource = storageService.load(document.get())) != null) {
       return ResponseEntity.ok()
               .header("Content-Disposition", "attachment; filename=" + resource.getFilename())
+              .contentType(MediaType.APPLICATION_OCTET_STREAM)
               .body(resource);
     }
 
@@ -86,9 +87,15 @@ public class FileStorageController {
   public ResponseEntity<Resource> deleteFile(@PathVariable Long fileid) {
     Optional<Document> document = documentRepository.findById(fileid);
 
-    if(document.isPresent()) {
-      storageService.delete(document.get(), true);
-      return ResponseEntity.status(HttpStatus.OK).body(null);
+    if(document.isPresent() && document.get().getPath() != null) {
+      if(storageService.delete(document.get(), true)) {
+        document.get().setPath(null);
+        document.get().setMime(null);
+        document.get().setLength(0);
+        documentRepository.save(document.get());
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+      }
+
     }
 
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);

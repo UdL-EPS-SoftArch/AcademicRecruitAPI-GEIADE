@@ -3,6 +3,8 @@ package cat.udl.eps.softarch.academicrecruit.handler;
 import cat.udl.eps.softarch.academicrecruit.domain.ProcessStage;
 import cat.udl.eps.softarch.academicrecruit.exception.ForbiddenException;
 import cat.udl.eps.softarch.academicrecruit.repository.ProcessStageRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +33,8 @@ public class ProcessStageEventHandler {
     }
 
     @HandleBeforeCreate
-    public void handleProcessStagePreCreate(ProcessStage processStage) {
-        logger.info("Before creating: {}", processStage.toString());
+    public void handleProcessStagePreCreate(ProcessStage processStage) throws JsonProcessingException {
+        logger.info("Before creating: {}", new ObjectMapper().writeValueAsString(processStage));
 
         if(processStage.getBeginDate() == null)
             processStage.setBeginDate(new Date()); //define a begin date if not set
@@ -60,8 +62,8 @@ public class ProcessStageEventHandler {
     }
 
     @HandleBeforeSave
-    public void handleProcessStagePreSave(ProcessStage processStage) {
-        logger.info("Before updating: {}", processStage.toString());
+    public void handleProcessStagePreSave(ProcessStage processStage) throws JsonProcessingException {
+        logger.info("Before updating: {}", new ObjectMapper().writeValueAsString(processStage));
 
         if(processStage.getBeginDate() == null)
             processStage.setBeginDate(new Date()); //define a begin date if not set
@@ -94,33 +96,33 @@ public class ProcessStageEventHandler {
     }
 
     @HandleBeforeDelete
-    public void handleProcessStagePreDelete(ProcessStage processStage) {
-        logger.info("Before deleting: {}", processStage.toString());
+    public void handleProcessStagePreDelete(ProcessStage processStage) throws JsonProcessingException {
+        logger.info("Before deleting: {}", new ObjectMapper().writeValueAsString(processStage));
     }
 
     @HandleBeforeLinkSave
-    public void handleProcessStagePreLinkSave(ProcessStage processStage, Object o) {
-        logger.info("Before linking: {} to {}", processStage.toString(), o.toString());
+    public void handleProcessStagePreLinkSave(ProcessStage processStage, Object o) throws JsonProcessingException {
+        logger.info("Before linking: {} to {}", new ObjectMapper().writeValueAsString(processStage), new ObjectMapper().writeValueAsString(o));
         throw new ForbiddenException(); //It must be defined on the create and the link can't be changed
     }
 
     @HandleAfterCreate
-    public void handleProcessStagePostCreate(ProcessStage processStage) {
-        logger.info("After creating: {}", processStage.toString());
+    public void handleProcessStagePostCreate(ProcessStage processStage) throws JsonProcessingException {
+        logger.info("After creating: {}", new ObjectMapper().writeValueAsString(processStage));
     }
 
     @HandleAfterSave
-    public void handleProcessStagePostSave(ProcessStage processStage) {
-        logger.info("After updating: {}", processStage.toString());
+    public void handleProcessStagePostSave(ProcessStage processStage) throws JsonProcessingException {
+        logger.info("After updating: {}", new ObjectMapper().writeValueAsString(processStage));
     }
 
     @HandleAfterDelete
-    public void handleProcessStagePostDelete(ProcessStage processStage) {
-        logger.info("After deleting: {}", processStage.toString());
+    public void handleProcessStagePostDelete(ProcessStage processStage) throws JsonProcessingException {
+        logger.info("After deleting: {}", new ObjectMapper().writeValueAsString(processStage));
     }
 
     @HandleAfterLinkSave
-    public void handleProcessStagePostLinkSave(ProcessStage processStage, Object o) {
-        logger.info("After linking: {} to {}", processStage.toString(), o.toString());
+    public void handleProcessStagePostLinkSave(ProcessStage processStage, Object o) throws JsonProcessingException {
+        logger.info("After linking: {} to {}", new ObjectMapper().writeValueAsString(processStage), new ObjectMapper().writeValueAsString(o));
     }
 }

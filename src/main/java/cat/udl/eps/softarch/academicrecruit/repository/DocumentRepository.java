@@ -1,7 +1,6 @@
 package cat.udl.eps.softarch.academicrecruit.repository;
 
 import cat.udl.eps.softarch.academicrecruit.domain.Document;
-import cat.udl.eps.softarch.academicrecruit.domain.ProcessStage;
 import cat.udl.eps.softarch.academicrecruit.domain.SelectionProcess;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
@@ -21,5 +20,5 @@ public interface DocumentRepository extends PagingAndSortingRepository<Document,
      * https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods.query-creation
      */
 
-    List<ProcessStage> findBySelectionProcess(@Param("selectionProcess") SelectionProcess selectionProcess);
+    List<Document> findBySelectionProcess(@Param("selectionProcess") SelectionProcess selectionProcess);
 }

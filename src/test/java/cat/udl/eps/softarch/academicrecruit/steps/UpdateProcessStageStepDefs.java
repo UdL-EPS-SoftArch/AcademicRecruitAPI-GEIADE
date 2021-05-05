@@ -68,8 +68,7 @@ public class UpdateProcessStageStepDefs {
                         .content(processStageRepository.findById((long) id).get().getUri())
                         .accept(MediaType.APPLICATION_JSON)
                         .with(AuthenticationStepDefs.authenticate())
-        ).andDo(print())
-        .andExpect(status().is2xxSuccessful());
+        ).andDo(print());
     }
 
     @Then("The previously updated selection process has now an active process stage with id {int}")

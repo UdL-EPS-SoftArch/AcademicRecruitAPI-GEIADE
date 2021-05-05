@@ -16,4 +16,11 @@ Feature: Update ProcessStage
 
   Scenario: Admin Created Process Stage associated to Selection Process and put it as active process stage
     When I associate the processStage with id 2 as active into to the selection process with vacancy "Professor de Mates"
-    Then The previously updated selection process has now an active process stage with id 2
+    Then The response code is successful
+    And The previously updated selection process has now an active process stage with id 2
+    
+  Scenario: Admin Created Process Stage associated to another Selection Process and put it as active process stage to the previous one
+    Given I create a selection process with vacancy "Professor de Mates 2"
+    And I create a processStage with name "Ronda 1" and step 2 associated to selection process with vacancy "Professor de Mates 2"
+    When I associate the processStage with id 4 as active into to the selection process with vacancy "Professor de Mates"
+    Then The response code is 403

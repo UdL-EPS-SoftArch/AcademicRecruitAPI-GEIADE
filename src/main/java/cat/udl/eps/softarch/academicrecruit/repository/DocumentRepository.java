@@ -20,6 +20,5 @@ public interface DocumentRepository extends PagingAndSortingRepository<Document,
      * https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods.query-creation
      */
 
-
-
+    List<Document> findBySelectionProcess(@Param("selectionProcess") SelectionProcess selectionProcess);
 }

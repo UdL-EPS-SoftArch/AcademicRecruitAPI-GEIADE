@@ -1,8 +1,5 @@
 package cat.udl.eps.softarch.academicrecruit.repository;
-import cat.udl.eps.softarch.academicrecruit.domain.Candidate;
-import cat.udl.eps.softarch.academicrecruit.domain.Document;
-import cat.udl.eps.softarch.academicrecruit.domain.Participant;
-import cat.udl.eps.softarch.academicrecruit.domain.SelectionProcess;
+import cat.udl.eps.softarch.academicrecruit.domain.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -24,4 +21,5 @@ public interface CandidateRepository extends PagingAndSortingRepository<Candidat
      */
 
     Page<Candidate> findBySelectionProcess(Pageable pageable, @Param("selectionProcess") SelectionProcess selectionProcess);
+    List<Candidate> findBySelectionProcessAndNameContaining(@Param("selectionProcess") SelectionProcess selectionProcess, @Param("text") String text);
 }
